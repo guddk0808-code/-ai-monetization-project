@@ -1,0 +1,2979 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AI 수익화">
+<title>AI 수익화 프로젝트</title>
+<style>
+  :root{
+    --ink:#111827; --ink2:#374151; --sub:#6b7280; --muted:#9ca3af;
+    --line:#e5e7eb; --line2:#f3f4f6; --track:#f3f4f6;
+    --green:#16a34a; --green-bg:#ecfdf3; --green-line:#bbf7d0;
+    --yellow:#eab308; --yellow-bg:#fefce8;
+    --slate:#64748b; --red:#dc2626; --red-bg:#fef2f2;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  html,body{margin:0;padding:0;background:#fff}
+  body{
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Malgun Gothic",system-ui,sans-serif;
+    font-size:15px;line-height:1.5;letter-spacing:-0.02em;
+    -webkit-font-smoothing:antialiased;overscroll-behavior-y:none;
+  }
+  button,input,select,textarea{font-family:inherit}
+  button{cursor:pointer}
+  .app{max-width:520px;margin:0 auto;min-height:100vh;min-height:100dvh;background:#fff;position:relative}
+  header.top{
+    position:sticky;top:0;z-index:30;background:rgba(255,255,255,.95);
+    -webkit-backdrop-filter:saturate(160%) blur(12px);backdrop-filter:saturate(160%) blur(12px);
+    padding:calc(10px + env(safe-area-inset-top)) 20px 10px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .brand{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;letter-spacing:-0.035em}
+  .brand i{display:block;width:8px;height:8px;border-radius:50%;background:var(--green);flex:none}
+  .hbtns{display:flex;gap:6px}
+  .iconbtn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;padding:0}
+  .iconbtn svg{width:17px;height:17px;stroke:var(--ink2);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  main{padding:2px 20px 108px}
+  .view{display:none}
+  .view.active{display:block;animation:fade .18s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .page-head{padding:8px 0 16px}
+  .page-no{font-size:12px;font-weight:800;color:var(--green);letter-spacing:0.03em}
+  h1.page-title{font-size:26px;font-weight:800;letter-spacing:-0.045em;line-height:1.24;margin:3px 0 0}
+  .page-sub{font-size:12.5px;color:var(--sub);margin-top:8px;line-height:1.55}
+  .sec{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:26px 0 10px}
+  .sec:first-child{margin-top:4px}
+  .sec h2{font-size:17px;font-weight:800;letter-spacing:-0.035em;margin:0}
+  .sec .side{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap}
+  .linkbtn{background:none;border:0;padding:0;color:var(--muted);font-size:12px;font-weight:700}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
+  .card + .card{margin-top:10px}
+  .divider{height:1px;background:var(--line2);margin:16px 0}
+  .k-label{font-size:12.5px;color:var(--sub);font-weight:600}
+  .k-value{font-size:28px;font-weight:800;letter-spacing:-0.045em;line-height:1.1;margin-top:4px;word-break:keep-all}
+  .k-value small{font-size:14px;font-weight:700;letter-spacing:-0.02em;margin-left:1px}
+  .k-sub{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.45}
+  .k-sub.green{color:var(--green);font-weight:700}
+  .k-sub.red{color:var(--red);font-weight:700}
+  .kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 14px}
+  .tag{display:inline-block;font-size:9.5px;font-weight:800;padding:2px 6px;border-radius:6px;margin-left:5px;vertical-align:3px;letter-spacing:0}
+  .tag.real{background:#eef2f7;color:#475569}
+  .tag.plan{background:var(--yellow-bg);color:#a16207}
+  .badge{display:inline-flex;align-items:center;font-size:11px;font-weight:800;padding:4px 8px;border-radius:8px;white-space:nowrap;letter-spacing:-0.01em}
+  .badge.green{background:var(--green-bg);color:var(--green)}
+  .badge.amber{background:var(--yellow-bg);color:#a16207}
+  .badge.gray{background:var(--line2);color:var(--sub)}
+  .badge.slate{background:#f1f5f9;color:var(--slate)}
+  .badge.red{background:var(--red-bg);color:var(--red)}
+  .bar{height:8px;border-radius:999px;background:var(--track);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:999px;background:var(--green)}
+  .bar.multi{display:flex}
+  .bar.multi i{border-radius:0}
+  .stack{display:flex;height:14px;border-radius:999px;overflow:hidden;background:var(--track);margin-top:12px}
+  .stack i{display:block;height:100%}
+  .rowlink{display:flex;justify-content:space-between;align-items:center;width:100%;border:1px solid var(--line);border-radius:14px;padding:13px 15px;background:#fff;font-size:12.5px;font-weight:700;color:var(--ink2);margin-top:2px}
+  .rowlink span:last-child{color:var(--muted);font-weight:600}
+  .prow{padding:13px 0}
+  .prow:first-child{padding-top:2px}
+  .prow:last-child{padding-bottom:2px}
+  .prow + .prow{border-top:1px solid var(--line2)}
+  .prow-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .prow-top b{font-size:13.5px;font-weight:700;letter-spacing:-0.02em}
+  .prow-top .right{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap}
+  .prow-top .right em{font-style:normal;color:var(--green)}
+  .prow .bar{margin-top:8px}
+  /* sync */
+  .sync-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;margin-bottom:4px}
+  .sync-label{font-size:10.5px;font-weight:700;color:var(--muted)}
+  .sync-time{font-size:12px;font-weight:700;color:var(--ink2);margin-top:2px}
+  .sync-dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;margin-right:5px;vertical-align:1px}
+  .sync-dot.off{background:var(--muted)}
+  /* goal */
+  .goal-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+  .goal-r{text-align:right;font-size:11.5px;color:var(--muted);font-weight:700}
+  .goal-r b{display:block;font-size:14px;color:var(--ink2);margin-top:2px;letter-spacing:-0.02em}
+  .gauge{height:12px;border-radius:999px;background:var(--track);margin-top:14px;display:flex;overflow:hidden}
+  .gauge i{display:block;height:100%}
+  .gauge .a{background:var(--green)}
+  .gauge .e{background:var(--yellow)}
+  .gauge-legend{display:flex;gap:14px;margin-top:10px;font-size:11.5px;font-weight:600;color:var(--sub)}
+  .gauge-legend span{display:inline-flex;align-items:center;gap:5px}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+  /* tracker */
+  .track-box{display:flex;align-items:center;gap:12px;margin:2px 0 12px}
+  .track-box .bar{flex:1}
+  .track-count{font-size:12px;font-weight:800;color:var(--green);white-space:nowrap}
+  .rev{border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:10px;background:#fff}
+  .rev.cancel{background:#fafafa}
+  .rev-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .pf{font-size:11.5px;font-weight:700;color:var(--sub)}
+  .rev-name{font-size:16px;font-weight:800;letter-spacing:-0.03em;margin-top:5px;line-height:1.35}
+  .rev-val{font-size:12.5px;font-weight:700;color:var(--ink2);margin-left:5px;white-space:nowrap}
+  .rev-rows{margin-top:12px;display:grid;gap:7px}
+  .rr{display:grid;grid-template-columns:64px 1fr;gap:8px;font-size:13px;line-height:1.45}
+  .rr span{color:var(--muted);font-weight:600}
+  .rr b{font-weight:600;color:var(--ink2)}
+  .rr b.ok{color:var(--green)}
+  .rr b.warn{color:#a16207}
+  .rr b.off{color:var(--red)}
+  .checkbtn{margin-top:13px;width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px;font-size:13px;font-weight:800;color:var(--sub);letter-spacing:-0.02em}
+  .checkbtn.on{background:var(--green-bg);border-color:var(--green-line);color:var(--green)}
+  .checkbtn:disabled{opacity:.6}
+  /* chips / search */
+  .chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{border:1px solid var(--line);background:#fff;color:var(--sub);font-size:12.5px;font-weight:700;padding:7px 12px;border-radius:999px;white-space:nowrap;letter-spacing:-0.02em}
+  .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .search{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin-bottom:10px;background:#fff}
+  .search svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;flex:none}
+  .search input{border:0;outline:0;flex:1;font-size:16px;color:var(--ink);background:transparent;min-width:0}
+  .search input::placeholder{color:var(--muted);font-size:14px}
+  /* rows */
+  .arow{display:flex;justify-content:space-between;gap:10px;padding:11px 0;align-items:center}
+  .arow:first-child{padding-top:2px}
+  .arow:last-child{padding-bottom:2px}
+  .arow + .arow{border-top:1px solid var(--line2)}
+  .arow .l{min-width:0;flex:1}
+  .arow .pf2{font-size:10.5px;color:var(--muted);font-weight:700}
+  .arow .nm{font-size:13.5px;font-weight:600;color:var(--ink);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .arow .note{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4}
+  .arow .r{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:none}
+  .arow .dt{font-size:10.5px;color:var(--muted);font-weight:600}
+  .empty{font-size:13px;color:var(--muted);padding:14px 0}
+  /* projects */
+  .proj{margin-bottom:10px}
+  .p-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .p-no{font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:0.02em}
+  .p-name{font-size:16.5px;font-weight:800;letter-spacing:-0.035em;margin:6px 0 0;line-height:1.3}
+  .p-sum{font-size:12.5px;color:var(--sub);margin-top:6px;line-height:1.5}
+  .p-nums{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:12px}
+  .p-nums div{background:#fafafa;border-radius:10px;padding:8px 9px}
+  .p-nums span{display:block;font-size:9.5px;color:var(--muted);font-weight:700}
+  .p-nums b{display:block;font-size:12px;font-weight:800;margin-top:2px;letter-spacing:-0.02em}
+  .p2stats{display:grid;grid-template-columns:1fr 1fr;gap:16px 12px;margin-top:16px}
+  .p2stats span{display:block;font-size:11px;color:var(--muted);font-weight:700}
+  .p2stats b{display:block;font-size:22px;font-weight:800;letter-spacing:-0.045em;margin-top:3px;line-height:1.15}
+  .p2paid{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--line2);margin-top:16px;padding-top:12px}
+  .p2paid span{font-size:12px;color:var(--muted);font-weight:700}
+  .p2paid b{font-size:22px;font-weight:800;letter-spacing:-0.04em}
+  .p-next{font-size:11.5px;color:var(--ink2);margin-top:10px;padding-top:10px;border-top:1px solid var(--line2);line-height:1.45}
+  .p-next b{color:var(--green);font-weight:800}
+  .p-btns{display:flex;gap:6px;margin-top:10px}
+  .p-btns button{flex:1;border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px;font-size:12px;font-weight:700;color:var(--ink2)}
+  .p-btns button.danger{color:var(--red);border-color:#fecaca}
+  .p-detail{margin-top:14px;padding-top:4px;border-top:1px solid var(--line2)}
+  .p-memo{font-size:12px;color:var(--sub);line-height:1.6;margin:10px 0 0}
+  .row-between{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 0 10px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid transparent;border-radius:12px;padding:11px 14px;font-size:13.5px;font-weight:800;letter-spacing:-0.02em;text-decoration:none;transition:transform .08s ease;white-space:nowrap}
+  .btn:active{transform:scale(.98)}
+  .btn.dark{background:var(--ink);color:#fff}
+  .btn.green{background:var(--green);color:#fff}
+  .btn.line{background:#fff;border-color:var(--line);color:var(--ink2)}
+  .btn.mini{padding:8px 11px;font-size:12px;border-radius:10px;flex:none}
+  .btn.danger{color:var(--red);border-color:#fecaca}
+  .btns{display:flex;gap:8px;margin-top:14px}
+  .btns .btn{flex:1}
+  /* schedule */
+  .sched{display:flex;gap:11px;padding:13px 0;align-items:flex-start}
+  .sched:first-child{padding-top:2px}
+  .sched + .sched{border-top:1px solid var(--line2)}
+  .tin{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+  .tbox{width:22px;height:22px;border-radius:7px;border:1.5px solid #d1d5db;flex:none;margin-top:1px;position:relative;background:#fff}
+  .tin:checked + .tbox{background:var(--green);border-color:var(--green)}
+  .tin:checked + .tbox::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+  .sbody{flex:1;min-width:0}
+  .sbody .t{font-size:14px;font-weight:600;line-height:1.4}
+  .sbody .m{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;align-items:center}
+  .sbody .note{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.45}
+  .sched.done .t{color:var(--muted);text-decoration:line-through}
+  .sacts{display:flex;flex-direction:column;gap:4px;flex:none}
+  .sacts button{background:none;border:0;font-size:10.5px;font-weight:700;color:var(--muted);padding:2px}
+  .sacts button.del{color:#f87171}
+  /* analytics */
+  .kv{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2);border-radius:12px;overflow:hidden;margin-top:12px}
+  .kv div{background:#fff;padding:11px 12px}
+  .kv span{display:block;font-size:10px;color:var(--muted);font-weight:700}
+  .kv b{display:block;font-size:13px;font-weight:800;margin-top:3px;letter-spacing:-0.02em}
+  .wrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;align-items:center}
+  .wrow + .wrow{border-top:1px solid var(--line2)}
+  .wrow .l{min-width:0;flex:1}
+  .wrow b{font-size:12.5px;font-weight:700;display:block;line-height:1.35}
+  .wrow span{font-size:10.5px;color:var(--muted);display:block;margin-top:2px}
+  .wrow .v{font-size:12.5px;font-weight:800;white-space:nowrap;color:var(--ink2)}
+  .wrow button{background:none;border:0;color:#f87171;font-size:10.5px;font-weight:700;padding:4px}
+  .ai-row{padding:11px 0}
+  .ai-row:first-child{padding-top:2px}
+  .ai-row + .ai-row{border-top:1px solid var(--line2)}
+  .ai-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .ai-top b{font-size:13px;font-weight:800}
+  .ai-row p{font-size:11.5px;color:var(--sub);margin:5px 0 0;line-height:1.5}
+  .ai-row p b{font-weight:700;color:var(--ink2);font-size:11.5px}
+  .lesson{width:100%;min-height:190px;border:0;outline:0;resize:vertical;font-size:16px;line-height:1.65;color:var(--ink2);background:transparent;letter-spacing:-0.01em}
+  .hint{font-size:10.5px;color:var(--muted);margin-top:6px;text-align:right}
+  /* sheet */
+  .sheet-wrap{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(17,24,39,.42)}
+  .sheet-wrap.open{display:flex}
+  .sheet{width:100%;max-width:520px;background:#fff;border-radius:22px 22px 0 0;max-height:92vh;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 20px calc(26px + env(safe-area-inset-bottom));animation:up .22s ease}
+  @keyframes up{from{transform:translateY(26px);opacity:.5}to{transform:none;opacity:1}}
+  .grab{width:38px;height:4px;border-radius:999px;background:var(--line);margin:4px auto 12px}
+  .sheet-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .sheet-head h3{font-size:19px;font-weight:800;letter-spacing:-0.035em;margin:0;line-height:1.35}
+  .close{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--sub);font-size:15px;line-height:1;flex:none}
+  .field{display:block;margin-top:14px}
+  .field > span{display:block;font-size:11.5px;font-weight:700;color:var(--sub);margin-bottom:6px}
+  .field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:16px;color:var(--ink);background:#fff;outline:none;letter-spacing:-0.01em}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--ink)}
+  .field textarea{min-height:92px;resize:vertical;line-height:1.5}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .set-block{margin-top:20px;padding-top:18px;border-top:1px solid var(--line2)}
+  .set-block:first-of-type{border-top:0;padding-top:4px}
+  .set-title{font-size:13px;font-weight:800}
+  .set-desc{font-size:11.5px;color:var(--sub);line-height:1.55;margin:6px 0 10px}
+  .set-info{margin:6px 0 0;padding-left:16px;font-size:11.5px;color:var(--sub);line-height:1.6}
+  .set-info li{margin-bottom:7px}
+  .set-info b{color:var(--ink2)}
+  .set-block .btn{width:100%;margin-top:8px}
+  .set-block .btns .btn{width:auto;margin-top:0}
+  .draft-block{margin-top:14px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .db-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#fafafa;border-bottom:1px solid var(--line2)}
+  .db-head b{font-size:12px;font-weight:800}
+  .db-head span{font-size:10.5px;color:var(--muted);font-weight:700}
+  .db-body{margin:0;padding:12px;font-family:inherit;font-size:12px;line-height:1.65;color:var(--ink2);white-space:pre-wrap;word-break:break-word;max-height:210px;overflow:auto}
+  .confirm-msg{font-size:13.5px;color:var(--ink2);line-height:1.6;margin:16px 0 0}
+  /* lock */
+  .lock{position:fixed;inset:0;z-index:90;background:#fff;display:flex;align-items:center;justify-content:center;padding:28px}
+  .lock[hidden]{display:none}
+  .lock-card{width:100%;max-width:300px;text-align:center}
+  .lock-dot{width:14px;height:14px;border-radius:50%;background:var(--green);margin:0 auto 18px}
+  .lock-card h2{font-size:19px;font-weight:800;letter-spacing:-0.03em;margin:0}
+  .lock-card p{font-size:12px;color:var(--sub);margin:8px 0 20px}
+  .lock-card input{width:100%;border:1px solid var(--line);border-radius:14px;padding:14px;font-size:22px;text-align:center;letter-spacing:0.4em;outline:none}
+  .lock-card input:focus{border-color:var(--ink)}
+  .lock-card .btn{width:100%;margin-top:12px;padding:13px}
+  .lock-msg{font-size:11.5px;color:var(--red);margin-top:10px;min-height:16px}
+  /* tabbar */
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:40;max-width:520px;margin:0 auto;background:rgba(255,255,255,.96);-webkit-backdrop-filter:saturate(160%) blur(12px);backdrop-filter:saturate(160%) blur(12px);border-top:1px solid var(--line);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+  .tab{flex:1;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 0 5px;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:-0.02em}
+  .tab svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .tab.active{color:var(--ink)}
+  .tab.active svg{stroke-width:2.1}
+  .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translate(-50%,12px);background:var(--ink);color:#fff;font-size:12.5px;font-weight:700;padding:10px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:all .2s ease;z-index:80;white-space:nowrap;max-width:88vw;overflow:hidden;text-overflow:ellipsis}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  .foot{font-size:10.5px;color:var(--muted);line-height:1.65;margin:24px 2px 0;padding-top:16px;border-top:1px solid var(--line2)}
+  .note-box{background:#fafafa;border-radius:12px;padding:12px 13px;font-size:11.5px;color:var(--sub);line-height:1.55;margin-top:12px}
+  .note-box b{color:var(--ink2)}
+  .callout{border:1px solid var(--green-line);background:var(--green-bg);border-radius:14px;padding:13px;margin-bottom:10px}
+  .callout .t{font-size:12.5px;font-weight:800;color:#15803d}
+  .callout .d{font-size:11.5px;color:#166534;margin-top:3px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><i></i>AI 수익화 프로젝트</div>
+    <div class="hbtns">
+      <button class="iconbtn" data-act="refresh" aria-label="새로고침">
+        <svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6"></path><path d="M20 4v5h-5"></path></svg>
+      </button>
+      <button class="iconbtn" data-act="settings" aria-label="설정">
+        <svg viewBox="0 0 24 24"><path d="M4 7h9"></path><path d="M17 7h3"></path><circle cx="15" cy="7" r="2"></circle><path d="M4 17h3"></path><path d="M11 17h9"></path><circle cx="9" cy="17" r="2"></circle></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HOME ============ -->
+    <section class="view active" id="view-home">
+      <div class="page-head">
+        <div class="page-no">DASHBOARD</div>
+        <h1 class="page-title">AI 수익화<br>프로젝트</h1>
+        <p class="page-sub">2026.11.27 기준 · 실제와 예상을 분리해서 봅니다</p>
+      </div>
+
+      <div class="sync-row">
+        <div>
+          <div class="sync-label">마지막 자동 업데이트</div>
+          <div class="sync-time" id="syncTime"><span class="sync-dot off"></span>내장 데이터</div>
+        </div>
+        <button class="btn line mini" data-act="refresh">새로고침</button>
+      </div>
+
+      <div class="sec"><h2>선정 6건 리뷰 트래커</h2><span class="side" id="revSide"></span></div>
+      <div class="track-box">
+        <div class="bar"><i id="revBar" style="width:0%"></i></div>
+        <span class="track-count" id="revCount">0%</span>
+      </div>
+      <div id="trackerHome"></div>
+      <button class="rowlink" data-act="open-project" data-id="p2">
+        <span>신청 현황 · 선정 결과</span><span>58건 · 대기 42 ›</span>
+      </button>
+
+      <div class="sec"><h2>이번 달 목표</h2><span class="side">10~20만 원</span></div>
+      <div class="card">
+        <div class="goal-top">
+          <div>
+            <div class="k-label">이번 달 실제 입금</div>
+            <div class="k-value" id="goalActual">0<small>원</small></div>
+          </div>
+          <div class="goal-r">확정·지급 예정<b id="goalExpected">9,670원</b></div>
+        </div>
+        <div class="gauge"><i class="a" id="gaugeA" style="width:0%"></i><i class="e" id="gaugeE" style="width:0%"></i></div>
+        <div class="gauge-legend">
+          <span><i class="dot" style="background:#16a34a"></i>실제</span>
+          <span><i class="dot" style="background:#eab308"></i>예정</span>
+          <span style="color:#9ca3af">목표 10만 원</span>
+          <span id="goalPct" style="margin-left:auto;color:#111827;font-weight:800">0%</span>
+        </div>
+        <div class="k-sub" id="goalNote" style="margin-top:10px">이번 달 입금은 아직 0원입니다.</div>
+      </div>
+
+      <div class="sec"><h2>수익 요약</h2><span class="side">[실제] / [예상]</span></div>
+      <div class="card"><div class="kpi-grid" id="kpiGrid"></div></div>
+
+      <div class="sec"><h2>월별 수익 추이</h2><span class="side">실제·예정·대기</span></div>
+      <div class="card" id="monthChart"></div>
+
+      <div class="sec"><h2>오늘 할 일</h2><span class="side" id="todaySide"></span></div>
+      <div class="card" id="todayList"></div>
+
+      <div class="sec"><h2>프로젝트 7</h2><button class="linkbtn" data-act="goto" data-tab="projects">관리 ›</button></div>
+      <div class="card" id="projOverview"></div>
+
+      <p class="foot">수치는 2026-11-27 12:30(체험단)·13:40(공모전) 실측입니다. 예상·기대값은 확정이 아닙니다. 주소·계좌·연락처는 저장하지 않습니다.<br>iPhone Safari에서 공유 → ‘홈 화면에 추가’로 앱처럼 사용할 수 있습니다.</p>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section class="view" id="view-projects">
+      <div class="page-head">
+        <div class="page-no">PROJECTS</div>
+        <h1 class="page-title">프로젝트별 관리</h1>
+        <p class="page-sub">기본 7개 · 추가·수정·삭제한 내용은 이 기기에 자동 저장됩니다</p>
+      </div>
+      <div class="row-between">
+        <span class="side" id="projCount">전체 7</span>
+        <button class="btn dark mini" data-act="add-project">+ 프로젝트 추가</button>
+      </div>
+      <div id="projectList"></div>
+    </section>
+
+    <!-- ============ SCHEDULE ============ -->
+    <section class="view" id="view-schedule">
+      <div class="page-head">
+        <div class="page-no">SCHEDULE</div>
+        <h1 class="page-title">일정 관리</h1>
+        <p class="page-sub">마감·발표·리뷰·입금·내 업무를 한 곳에서</p>
+      </div>
+      <div class="chips" id="schedChips"></div>
+      <div class="row-between">
+        <span class="side" id="schedCount"></span>
+        <button class="btn dark mini" data-act="add-schedule">+ 일정 추가</button>
+      </div>
+      <div id="schedList"></div>
+
+      <div class="sec"><h2>공모전 마감</h2><span class="side">참고 · 5건</span></div>
+      <div class="card" id="contestMini"></div>
+    </section>
+
+    <!-- ============ ANALYTICS ============ -->
+    <section class="view" id="view-analytics">
+      <div class="page-head">
+        <div class="page-no">ANALYSIS</div>
+        <h1 class="page-title">성과 분석</h1>
+        <p class="page-sub">선정률 · 실제 vs 예상 · 시간 대비 순수익</p>
+      </div>
+
+      <div class="sec"><h2>플랫폼별 선정률</h2><span class="side">선정률 순</span></div>
+      <div class="card" id="platformBars"></div>
+
+      <div class="sec"><h2>프로젝트별 실제 vs 예상</h2><span class="side">단위: 원</span></div>
+      <div class="card" id="projBars"></div>
+
+      <div class="sec"><h2>수익 내역</h2><span class="side">실제·예정·대기</span></div>
+      <div class="card" id="incomeBox"></div>
+
+      <div class="sec"><h2>작업 시간 · 시급</h2><span class="side">직접 입력·집계</span></div>
+      <div class="card" id="workBox"></div>
+
+      <div class="sec"><h2>AI별 업무 성과</h2><span class="side">역할·결과 기록</span></div>
+      <div class="card" id="aiBox"></div>
+
+      <div class="sec"><h2>실패 원인 · 개선</h2><span class="side">편집 가능</span></div>
+      <div class="card">
+        <textarea id="lesson" class="lesson" placeholder="실패 원인과 개선 방향을 적어두세요"></textarea>
+        <div class="hint" id="lessonHint">자동 저장</div>
+      </div>
+
+      <p class="foot">작업 시간 중 ‘추정’ 표시는 실제 계측값이 아니라 초안·리뷰 작성에 걸린 시간을 어림한 값입니다. 직접 입력해 정확하게 바꿀 수 있습니다.</p>
+    </section>
+  </main>
+
+  <nav class="tabbar" id="tabbar">
+    <button class="tab active" data-tab="home">
+      <svg viewBox="0 0 24 24"><path d="M3.5 10.6 12 3.5l8.5 7.1"></path><path d="M5.8 9.6V20h12.4V9.6"></path></svg>
+      <span>대시보드</span>
+    </button>
+    <button class="tab" data-tab="projects">
+      <svg viewBox="0 0 24 24"><path d="M4 7.5h6l1.6 2H20v9H4z"></path><path d="M4 7.5V5.5h5l1.5 2"></path></svg>
+      <span>프로젝트</span>
+    </button>
+    <button class="tab" data-tab="schedule">
+      <svg viewBox="0 0 24 24"><rect x="3.8" y="5.5" width="16.4" height="14" rx="2"></rect><path d="M8 3.5v4"></path><path d="M16 3.5v4"></path><path d="M3.8 10h16.4"></path></svg>
+      <span>일정</span>
+    </button>
+    <button class="tab" data-tab="analytics">
+      <svg viewBox="0 0 24 24"><path d="M4 18.5V13"></path><path d="M9.3 18.5V8.5"></path><path d="M14.7 18.5v-6"></path><path d="M20 18.5V5"></path></svg>
+      <span>분석</span>
+    </button>
+  </nav>
+</div>
+
+<div class="sheet-wrap" id="sheetWrap">
+  <div class="sheet" id="sheetBody"></div>
+</div>
+
+<div class="lock" id="lock" hidden>
+  <div class="lock-card">
+    <div class="lock-dot"></div>
+    <h2>AI 수익화 프로젝트</h2>
+    <p>4자리 PIN을 입력하세요</p>
+    <input id="lockPin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••">
+    <button class="btn dark" id="lockBtn">잠금 해제</button>
+    <p class="lock-msg" id="lockMsg"></p>
+  </div>
+</div>
+
+<div class="toast" id="toast">저장했어요</div>
+<input type="file" id="importFile" accept=".json,application/json" hidden>
+
+<noscript><div style="padding:20px;font-size:14px">이 대시보드는 JavaScript가 필요합니다.</div></noscript>
+
+<script type="application/json" id="defaultData">
+{
+  "version": 1,
+  "app": "AI 수익화 프로젝트",
+  "updated": "2026-11-27T13:40:00+09:00",
+  "updatedLabel": "2026-11-27 13:40",
+  "goal": {
+    "min": 100000,
+    "max": 200000
+  },
+  "cost": 0,
+  "projects": [
+    {
+      "id": "p1",
+      "no": "P-001",
+      "name": "밀양아리랑 AI 포스터 공모전",
+      "cat": "공모전",
+      "status": "접수 완료",
+      "tone": "green",
+      "summary": "「아리랑, 세대를 잇는 물결」 제출 · 12/18 발표",
+      "next": "12/18(금) 사이트 공고 + 개별 문자 확인",
+      "deadline": "2026-12-18",
+      "actual": 0,
+      "expected": 0,
+      "pending": 0,
+      "goods": 0,
+      "points": 0,
+      "ev": 0,
+      "memo": "상금 총 90만 원 — 최우수 50만 1명 / 우수 20만 2명. 심사 12/14~16, 평균 70점 미만 제외. 상장·시상식 없음, 제세공과금 본인 부담.",
+      "link": "https://naver.me/5imiCfUX"
+    },
+    {
+      "id": "p2",
+      "no": "P-002",
+      "name": "체험단·기자단",
+      "cat": "체험단",
+      "status": "진행 중",
+      "tone": "green",
+      "summary": "245건 신청 · 선정 6건(2.4%) · 실제 입금 0원",
+      "next": "홍화사주 11/28 확인 · 오르네오 12/07 마감",
+      "deadline": "2026-12-07",
+      "actual": 0,
+      "expected": 9670,
+      "pending": 90000,
+      "goods": 224000,
+      "points": 0,
+      "ev": 0,
+      "memo": "선정 6건: 기가팡 9,670원(리뷰 완료) · 오르네오유스 25,000원 · 메타웰 3종 199,000원 · 홍화사주. 실제 수령 물품 0건, 입금 0원.",
+      "link": ""
+    },
+    {
+      "id": "p3",
+      "no": "P-003",
+      "name": "공공기관 설문·이벤트",
+      "cat": "공공",
+      "status": "진행 중",
+      "tone": "green",
+      "summary": "제출 29건 · 발표 대기 28건 · 미당첨 1건",
+      "next": "건강모아 12/07 · 강화군청 12/09 발표",
+      "deadline": "2026-12-09",
+      "actual": 0,
+      "expected": 0,
+      "pending": 0,
+      "goods": 0,
+      "points": 0,
+      "ev": 0,
+      "memo": "KICT·제주관광공사 11/27 제출 완료. 경품이 커피·상품권 5천~1만 원대라 건당 기대값은 100~1,000원 수준. 11/30 마감 6건은 로그인·손서명 대기.",
+      "link": ""
+    },
+    {
+      "id": "p4",
+      "no": "P-004",
+      "name": "쿠팡 리뷰 포인트",
+      "cat": "리뷰",
+      "status": "확정",
+      "tone": "green",
+      "summary": "583건 작성 · 31,450점 · 미작성 0건",
+      "next": "신규 구매 건 발생 시 계속 적립",
+      "deadline": "",
+      "actual": 0,
+      "expected": 0,
+      "pending": 0,
+      "goods": 0,
+      "points": 31450,
+      "ev": 0,
+      "memo": "리뷰 포인트는 100% 지급 확정. 체험단(선정률 2.4%)과 달리 실패가 없는 확정형 수익. 현금이 아니라 쿠팡 결제에 쓰는 포인트. 블로그 애드포스트는 11/26 보류(UV·PV 부족) — 12월 유입을 키운 뒤 2027-01-04 재검수 예정.",
+      "link": ""
+    },
+    {
+      "id": "p5",
+      "no": "P-005",
+      "name": "미리캔버스 디자인허브",
+      "cat": "기타",
+      "status": "보류",
+      "tone": "amber",
+      "summary": "300개 50~100시간 → 월 3~4천 원 · 비추천",
+      "next": "재개하지 않음 (6개월 뒤 재검토)",
+      "deadline": "",
+      "actual": 0,
+      "expected": 0,
+      "pending": 0,
+      "goods": 0,
+      "points": 0,
+      "ev": 0,
+      "memo": "공모전 1건(1시간) 기대값이 디자인허브 300개(50~100시간)의 3개월 수익보다 큼(차이 160~1,100배). AI 제작 체크 누락 시 계정 즉시 해지 + 기존 로열티 환수(약관 제11조 2항 b·3항). 2027 정미년 템플릿은 이미 포화.",
+      "link": "https://designhub.miricanvas.com/ko/terms"
+    },
+    {
+      "id": "p6",
+      "no": "P-006",
+      "name": "MY EDU 앱",
+      "cat": "앱",
+      "status": "보류",
+      "tone": "amber",
+      "summary": "사전검증 완료 · 개발 착수 보류",
+      "next": "3단계 검증 게이트 통과 전까지 개발 없음",
+      "deadline": "",
+      "actual": 0,
+      "expected": 0,
+      "pending": 0,
+      "goods": 0,
+      "points": 0,
+      "ev": 0,
+      "memo": "경쟁 앱·저작권·법률 8항목 + 전국 학력 데이터 검증 완료. 학교별 기출문제 수집은 저작권상 사업화 불가, 아동 개인정보가 최대 리스크. 아이엠스쿨은 2026-02-28 서비스 종료, 강남엄마는 법인 폐업. '앱을 만들면 되는 문제'가 아니라 데이터 확보·수익모델 검증이 먼저.",
+      "link": ""
+    },
+    {
+      "id": "p7",
+      "no": "P-007",
+      "name": "한전KPS AI 아이디어 공모전",
+      "cat": "공모전",
+      "status": "2차 보완 중",
+      "tone": "amber",
+      "summary": "「마감체크 AI」 정비지원 · 12/6 마감",
+      "next": "2차 보완 후 폼 제출 (12/6 낮)",
+      "deadline": "2026-12-06",
+      "actual": 0,
+      "expected": 0,
+      "pending": 0,
+      "goods": 0,
+      "points": 0,
+      "ev": 60000,
+      "memo": "최우수 100만 1 / 우수 50만 2 / 장려 20만 5 = 8팀, 총 300만. 폼은 서술 3칸 각 2,000자(요약·내용·기대효과) + 지원분야 '정비지원'. 2025 우수상은 안전 영상이라 아류를 피해 '정비 결과 확인'으로 축을 옮김. 초안: 요약 648자·내용 1,303자·기대효과 874자.",
+      "link": "https://naver.me/5Z1tnsAk"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "r1",
+      "pf": "포포몬",
+      "name": "홍화사주 고급정밀사주분석",
+      "value": "금액 미표기",
+      "result": "선정 확정",
+      "tone": "green",
+      "state": "active",
+      "progress": "제출 완료 · 업체 확인 단계",
+      "review": "리뷰 제출 완료 · 11/28 마감 확인 대기",
+      "reviewTone": "warn",
+      "due": "2026-11-28",
+      "dueNote": "마감",
+      "done": true
+    },
+    {
+      "id": "r2",
+      "pf": "클라우드리뷰",
+      "name": "오르네오유스 녹용 분말스틱 SET",
+      "value": "25,000원",
+      "result": "선정 확정",
+      "tone": "green",
+      "state": "active",
+      "progress": "전자서명 완료(11/27) · 배송 전",
+      "review": "리뷰 미작성 · 게시 11/28~12/07",
+      "reviewTone": "off",
+      "due": "2026-11-28",
+      "dueNote": "게시 시작",
+      "done": false
+    },
+    {
+      "id": "r3",
+      "pf": "포포몬",
+      "name": "메타웰 프로시칸",
+      "value": "61,000원",
+      "result": "선정 확정",
+      "tone": "green",
+      "state": "active",
+      "progress": "배송 예정 · 송장 미등록 (11/30~12/03 도착 예상)",
+      "review": "리뷰 미작성 · ~2027-03-31",
+      "reviewTone": "off",
+      "due": "2027-03-31",
+      "dueNote": "리뷰 기한",
+      "done": false
+    },
+    {
+      "id": "r4",
+      "pf": "포포몬",
+      "name": "메타웰 비라이토",
+      "value": "66,000원",
+      "result": "선정 확정",
+      "tone": "green",
+      "state": "active",
+      "progress": "배송 예정 · 송장 미등록 (11/30~12/03 도착 예상)",
+      "review": "리뷰 미작성 · ~2027-03-31",
+      "reviewTone": "off",
+      "due": "2027-03-31",
+      "dueNote": "리뷰 기한",
+      "done": false
+    },
+    {
+      "id": "r5",
+      "pf": "포포몬",
+      "name": "메타웰 리파포틴",
+      "value": "72,000원",
+      "result": "선정 확정",
+      "tone": "green",
+      "state": "active",
+      "progress": "배송 예정 · 송장 미등록 (11/30~12/03 도착 예상)",
+      "review": "리뷰 미작성 · ~2027-03-31",
+      "reviewTone": "off",
+      "due": "2027-03-31",
+      "dueNote": "리뷰 기한",
+      "done": false
+    },
+    {
+      "id": "r6",
+      "pf": "리뷰플레이스",
+      "name": "기가팡 (원고형)",
+      "value": "9,670원",
+      "result": "선정 확정",
+      "tone": "green",
+      "state": "active",
+      "progress": "원고형 · 리뷰 등록 완료(11/20)",
+      "review": "리뷰 완료 · 12/03~09 적립 예정",
+      "reviewTone": "ok",
+      "due": "2026-12-08",
+      "dueNote": "적립 확인",
+      "done": true
+    },
+    {
+      "id": "r7",
+      "pf": "리뷰플레이스",
+      "name": "명리마스터 사주 (320993)",
+      "value": "10만 원 상당",
+      "result": "선정 후 취소",
+      "tone": "slate",
+      "state": "cancel",
+      "progress": "취소 완료(11/24) · 미체험 · 페널티 0",
+      "review": "리뷰 불필요 · 종결",
+      "reviewTone": "",
+      "due": "",
+      "dueNote": "",
+      "done": false
+    },
+    {
+      "id": "r8",
+      "pf": "포블로그",
+      "name": "한자능력검정시험 교재&문제집 231차",
+      "value": "교재 세트",
+      "result": "취소 요청",
+      "tone": "amber",
+      "state": "cancel",
+      "progress": "참여중 유지 · 발송 준비 중 (미발송)",
+      "review": "리뷰 미작성 · 취소 미반영",
+      "reviewTone": "warn",
+      "due": "2026-12-09",
+      "dueNote": "D-12",
+      "done": false
+    }
+  ],
+  "apps": [
+    {
+      "id": "a1",
+      "pf": "리뷰플레이스",
+      "nm": "기가팡 (원고형)",
+      "st": "win",
+      "dt": "2026-11-20",
+      "note": "9,670원 · 리뷰 등록 완료"
+    },
+    {
+      "id": "a2",
+      "pf": "클라우드리뷰",
+      "nm": "오르네오유스 녹용 분말스틱 SET",
+      "st": "win",
+      "dt": "2026-11-27",
+      "note": "25,000원 · 리뷰 11/28~12/07"
+    },
+    {
+      "id": "a3",
+      "pf": "포포몬",
+      "nm": "메타웰 프로시칸",
+      "st": "win",
+      "dt": "2026-11-30",
+      "note": "61,000원 · 배송 대기"
+    },
+    {
+      "id": "a4",
+      "pf": "포포몬",
+      "nm": "메타웰 비라이토",
+      "st": "win",
+      "dt": "2026-11-30",
+      "note": "66,000원 · 배송 대기"
+    },
+    {
+      "id": "a5",
+      "pf": "포포몬",
+      "nm": "메타웰 리파포틴",
+      "st": "win",
+      "dt": "2026-11-30",
+      "note": "72,000원 · 배송 대기"
+    },
+    {
+      "id": "a6",
+      "pf": "포포몬",
+      "nm": "홍화사주 고급정밀사주분석",
+      "st": "win",
+      "dt": "2026-11-28",
+      "note": "제출 완료 · 확인 대기"
+    },
+    {
+      "id": "a7",
+      "pf": "리뷰플레이스",
+      "nm": "명리마스터 사주 (320993)",
+      "st": "cancel",
+      "dt": "2026-11-24",
+      "note": "취소 완료 · 페널티 0"
+    },
+    {
+      "id": "a8",
+      "pf": "포블로그",
+      "nm": "한자능력검정시험 교재&문제집 231차",
+      "st": "cancel",
+      "dt": "2026-11-27",
+      "note": "취소 요청 · 참여중 유지"
+    },
+    {
+      "id": "a9",
+      "pf": "링블",
+      "nm": "[22차] 부산드론자격증교육원",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "10,000P · 오늘 16:30"
+    },
+    {
+      "id": "a10",
+      "pf": "링블",
+      "nm": "크라운해태",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "10,000P · 오늘 16:30"
+    },
+    {
+      "id": "a11",
+      "pf": "링블",
+      "nm": "보다컴퍼니",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "10,000P · 오늘 16:30"
+    },
+    {
+      "id": "a12",
+      "pf": "링블",
+      "nm": "누수복원",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "10,000P · 오늘 16:30"
+    },
+    {
+      "id": "a13",
+      "pf": "SSG닷컴",
+      "nm": "국산콩두유 22곡 160ml 20포",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "오늘 16:30"
+    },
+    {
+      "id": "a14",
+      "pf": "SSG닷컴",
+      "nm": "노프랍",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "오늘 16:30"
+    },
+    {
+      "id": "a15",
+      "pf": "위뷰",
+      "nm": "에쿠아젠 2회차",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "13~15만 원 상당 · 오늘 16:30"
+    },
+    {
+      "id": "a16",
+      "pf": "디너의여왕",
+      "nm": "급냉 암대하 1kg",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "오늘 16:30"
+    },
+    {
+      "id": "a17",
+      "pf": "리뷰플레이스",
+      "nm": "에디브이",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "20,000P · 오늘 16:30"
+    },
+    {
+      "id": "a18",
+      "pf": "똑똑리워드",
+      "nm": "노란마켓 기자단 (2611-0417)",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "현금 15,000원 · 오늘 16:30"
+    },
+    {
+      "id": "a19",
+      "pf": "리뷰노트",
+      "nm": "비타민나무잎차",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "오늘 16:30"
+    },
+    {
+      "id": "a20",
+      "pf": "공공",
+      "nm": "농식품정보누리 만족도 설문",
+      "st": "wait",
+      "dt": "2026-11-27",
+      "note": "공공 이벤트 · 오늘 16:30"
+    },
+    {
+      "id": "a21",
+      "pf": "클라우드리뷰",
+      "nm": "한우 채끝살 200g",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "25,800원 상당 · 192/10"
+    },
+    {
+      "id": "a22",
+      "pf": "클라우드리뷰",
+      "nm": "마사지볼",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "8,900원 상당"
+    },
+    {
+      "id": "a23",
+      "pf": "클라우드리뷰",
+      "nm": "휴대용 가글스틱 30포",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "12,900원 상당"
+    },
+    {
+      "id": "a24",
+      "pf": "클라우드리뷰",
+      "nm": "미백 토너 150ml",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "38,000원 상당"
+    },
+    {
+      "id": "a25",
+      "pf": "클라우드리뷰",
+      "nm": "글리터 맥세이프톡 거울형",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "13,900원 상당"
+    },
+    {
+      "id": "a26",
+      "pf": "클라우드리뷰",
+      "nm": "크리스마스 스티커 3세트",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "13,170원 상당"
+    },
+    {
+      "id": "a27",
+      "pf": "클라우드리뷰",
+      "nm": "감성 다이어리 1권",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "15,000원 상당"
+    },
+    {
+      "id": "a28",
+      "pf": "클라우드리뷰",
+      "nm": "보풀제거기 3개",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "9,900원 상당 · 76/10"
+    },
+    {
+      "id": "a29",
+      "pf": "클라우드리뷰",
+      "nm": "그린티시트러스 샴푸 500ml",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "76,500원 상당 · 59/10"
+    },
+    {
+      "id": "a30",
+      "pf": "SSG닷컴",
+      "nm": "불오징어집",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": ""
+    },
+    {
+      "id": "a31",
+      "pf": "레뷰",
+      "nm": "실손24 소개",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "10,000P"
+    },
+    {
+      "id": "a32",
+      "pf": "티블",
+      "nm": "carbonen 식물영양제",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": ""
+    },
+    {
+      "id": "a33",
+      "pf": "파블로",
+      "nm": "5,000P 기자단",
+      "st": "wait",
+      "dt": "2026-11-30",
+      "note": "5,000P"
+    },
+    {
+      "id": "a34",
+      "pf": "리뷰플레이스",
+      "nm": "크라테 자두와인",
+      "st": "wait",
+      "dt": "2026-12-01",
+      "note": ""
+    },
+    {
+      "id": "a35",
+      "pf": "리뷰노트",
+      "nm": "통영꿀빵 · 삼칠갈비 · 붱순이 · 메디셜",
+      "st": "wait",
+      "dt": "2026-12-01",
+      "note": "4건 묶음"
+    },
+    {
+      "id": "a36",
+      "pf": "SSG닷컴",
+      "nm": "셀다움 미스트",
+      "st": "wait",
+      "dt": "2026-12-01",
+      "note": ""
+    },
+    {
+      "id": "a37",
+      "pf": "링블",
+      "nm": "코르피린 2건",
+      "st": "wait",
+      "dt": "2026-12-02",
+      "note": "2건 묶음"
+    },
+    {
+      "id": "a38",
+      "pf": "SSG닷컴",
+      "nm": "베라수플러스 · 신농작 2건",
+      "st": "wait",
+      "dt": "2026-12-02",
+      "note": "3건 묶음"
+    },
+    {
+      "id": "a39",
+      "pf": "리뷰노트",
+      "nm": "약손발마사지",
+      "st": "wait",
+      "dt": "2026-12-02",
+      "note": ""
+    },
+    {
+      "id": "a40",
+      "pf": "클라우드리뷰",
+      "nm": "모시 찐송편 20개",
+      "st": "wait",
+      "dt": "2026-12-03",
+      "note": "9,800원 상당"
+    },
+    {
+      "id": "a41",
+      "pf": "클라우드리뷰",
+      "nm": "강아지 크리스마스 반팔티셔츠",
+      "st": "wait",
+      "dt": "2026-12-03",
+      "note": "28,000원 상당 · 구름"
+    },
+    {
+      "id": "a42",
+      "pf": "링블",
+      "nm": "가니쉬 5차 · 수용성 커큐민 · 콰삭바삭",
+      "st": "wait",
+      "dt": "2026-12-03",
+      "note": "3건 묶음"
+    },
+    {
+      "id": "a43",
+      "pf": "리뷰플레이스",
+      "nm": "하나두울 네컷사진 어플",
+      "st": "wait",
+      "dt": "2026-12-03",
+      "note": "10,000P"
+    },
+    {
+      "id": "a44",
+      "pf": "아싸뷰",
+      "nm": "이콘타디니 바질토마토 소스",
+      "st": "wait",
+      "dt": "2026-12-03",
+      "note": ""
+    },
+    {
+      "id": "a45",
+      "pf": "SSG닷컴",
+      "nm": "순작 건강차 2종",
+      "st": "wait",
+      "dt": "2026-12-03",
+      "note": ""
+    },
+    {
+      "id": "a46",
+      "pf": "클라우드리뷰",
+      "nm": "배변봉투",
+      "st": "wait",
+      "dt": "2026-12-07",
+      "note": "7,000원 상당"
+    },
+    {
+      "id": "a47",
+      "pf": "클라우드리뷰",
+      "nm": "관절영양제 30포",
+      "st": "wait",
+      "dt": "2026-12-07",
+      "note": "39,500원 상당"
+    },
+    {
+      "id": "a48",
+      "pf": "리뷰플레이스",
+      "nm": "페이장브레통 르 브리 125g×3",
+      "st": "wait",
+      "dt": "2026-12-08",
+      "note": ""
+    },
+    {
+      "id": "a49",
+      "pf": "클라우드리뷰",
+      "nm": "홍삼선물세트 60포",
+      "st": "wait",
+      "dt": "2026-12-09",
+      "note": "99,000원 상당"
+    },
+    {
+      "id": "a50",
+      "pf": "리뷰플레이스",
+      "nm": "페이스라이너",
+      "st": "wait",
+      "dt": "2026-12-21",
+      "note": ""
+    },
+    {
+      "id": "a51",
+      "pf": "무신사",
+      "nm": "체험단 20건 전체",
+      "st": "lose",
+      "dt": "2026-11-24",
+      "note": "전부 미선정"
+    },
+    {
+      "id": "a52",
+      "pf": "레뷰",
+      "nm": "25건",
+      "st": "lose",
+      "dt": "2026-11-24",
+      "note": "실측 미선정"
+    },
+    {
+      "id": "a53",
+      "pf": "네이버 브랜드스토어",
+      "nm": "무료체험 11건",
+      "st": "lose",
+      "dt": "2026-11-26",
+      "note": "발표 대기 0건 종결"
+    },
+    {
+      "id": "a54",
+      "pf": "링블",
+      "nm": "11/19 접수 5건 (드론·3M 2건·밀크캔디·제습제)",
+      "st": "lose",
+      "dt": "2026-11-26",
+      "note": "리뷰 등록 중 0건"
+    },
+    {
+      "id": "a55",
+      "pf": "클라우드리뷰",
+      "nm": "고기 연육제 · 올인원 펫샴푸",
+      "st": "lose",
+      "dt": "2026-11-26",
+      "note": "미선정 확정"
+    },
+    {
+      "id": "a56",
+      "pf": "리뷰플레이스",
+      "nm": "쾌뇨펫 30포 · 명인신광수차",
+      "st": "lose",
+      "dt": "2026-11-26",
+      "note": "선정자 정원 마감"
+    },
+    {
+      "id": "a57",
+      "pf": "SSG닷컴",
+      "nm": "메디쏠라 쏠라 2종",
+      "st": "lose",
+      "dt": "2026-11-26",
+      "note": "당첨자 50명 게시"
+    },
+    {
+      "id": "a58",
+      "pf": "아싸뷰",
+      "nm": "오어블 · 스위프트 · 어센틱 3건",
+      "st": "lose",
+      "dt": "2026-11-23",
+      "note": "미션 진행 0"
+    }
+  ],
+  "platforms": [
+    {
+      "n": "포포몬",
+      "a": 4,
+      "w": 4
+    },
+    {
+      "n": "리뷰플레이스",
+      "a": 32,
+      "w": 1
+    },
+    {
+      "n": "클라우드리뷰",
+      "a": 37,
+      "w": 1
+    },
+    {
+      "n": "레뷰",
+      "a": 26,
+      "w": 0
+    },
+    {
+      "n": "링블",
+      "a": 24,
+      "w": 0
+    },
+    {
+      "n": "파블로",
+      "a": 24,
+      "w": 0
+    },
+    {
+      "n": "무신사",
+      "a": 20,
+      "w": 0
+    },
+    {
+      "n": "기타 플랫폼",
+      "a": 78,
+      "w": 0
+    }
+  ],
+  "points": [
+    {
+      "n": "쿠팡 리뷰 포인트",
+      "v": "31,450점",
+      "note": "583건 작성 · 미작성 0건 · 100% 지급 확정"
+    },
+    {
+      "n": "CJ ONE",
+      "v": "7,188P",
+      "note": "11/23 실측 · 올리브영 사용"
+    },
+    {
+      "n": "무신사 머니",
+      "v": "5,630원",
+      "note": "11/25 실측 · 결제 전용, 현금화 불가"
+    },
+    {
+      "n": "엠브레인 패널파워",
+      "v": "1,450원",
+      "note": "11/23 · 3,000원 상품권 지급 후"
+    },
+    {
+      "n": "탄소중립포인트",
+      "v": "1,000P",
+      "note": "11/18 · +2,000P 12/11 입금 확인"
+    },
+    {
+      "n": "파블로",
+      "v": "500P",
+      "note": "11/18 · 가입 축하분"
+    },
+    {
+      "n": "기가팡",
+      "v": "0P",
+      "note": "10,000P 12/03~09 적립 예정",
+      "zero": true
+    },
+    {
+      "n": "레뷰·링블·위뷰·티블·똑똑리워드",
+      "v": "0P",
+      "note": "11/18~11/25 실측",
+      "zero": true
+    },
+    {
+      "n": "네이버페이 · 29CM",
+      "v": "미확인",
+      "note": "11/27 보고서 기준 실측 안 함",
+      "zero": true
+    }
+  ],
+  "schedules": [
+    {
+      "id": "s1",
+      "cat": "task",
+      "title": "포블로그 한자교재 취소 반영 확인",
+      "date": "2026-11-27",
+      "done": false,
+      "project": "P-002",
+      "memo": "참여중 1→0, 내 배송에서 사라졌는지"
+    },
+    {
+      "id": "s2",
+      "cat": "announce",
+      "title": "오늘 발표 12건 확인",
+      "date": "2026-11-27",
+      "done": false,
+      "project": "P-002",
+      "memo": "링블4 · SSG2 · 위뷰 · 디너의여왕 · 리뷰플레이스 · 똑똑리워드 · 리뷰노트 · 공공1"
+    },
+    {
+      "id": "s3",
+      "cat": "review",
+      "title": "홍화사주 업체 확인 마감",
+      "date": "2026-11-28",
+      "done": false,
+      "project": "P-002",
+      "memo": "제출 완료 · 사이트 확정 표기 없음"
+    },
+    {
+      "id": "s4",
+      "cat": "review",
+      "title": "오르네오유스 리뷰 시작",
+      "date": "2026-11-28",
+      "done": false,
+      "project": "P-002",
+      "memo": "게시 11/28~12/07 · 800자·사진15·영상1·AI 금지"
+    },
+    {
+      "id": "s5",
+      "cat": "task",
+      "title": "공공 11/30 마감 6건",
+      "date": "2026-11-30",
+      "done": false,
+      "project": "P-003",
+      "memo": "서울시평생교육(인증서) · 행안부·농림식품(소통24) · 구석구석(손서명) · 체육산업개발(로그인) · 현대차(폼 미확보)"
+    },
+    {
+      "id": "s6",
+      "cat": "announce",
+      "title": "클라우드리뷰 9 · 레뷰 실손24 · 티블 · 파블로",
+      "date": "2026-11-30",
+      "done": false,
+      "project": "P-002",
+      "memo": ""
+    },
+    {
+      "id": "s7",
+      "cat": "announce",
+      "title": "리뷰노트 4 · SSG 셀다움",
+      "date": "2026-12-01",
+      "done": false,
+      "project": "P-002",
+      "memo": ""
+    },
+    {
+      "id": "s8",
+      "cat": "announce",
+      "title": "링블 2 · SSG 3 · 리뷰노트 1",
+      "date": "2026-12-02",
+      "done": false,
+      "project": "P-002",
+      "memo": ""
+    },
+    {
+      "id": "s9",
+      "cat": "announce",
+      "title": "클라우드리뷰 2 · 링블 3 · 리뷰플레이스 · 아싸뷰 · SSG",
+      "date": "2026-12-03",
+      "done": false,
+      "project": "P-002",
+      "memo": ""
+    },
+    {
+      "id": "s10",
+      "cat": "contest",
+      "title": "한전KPS 아이디어 마감",
+      "date": "2026-12-06",
+      "done": false,
+      "project": "P-007",
+      "memo": "폼 12/07 00:00 · 2차 보완 중"
+    },
+    {
+      "id": "s11",
+      "cat": "review",
+      "title": "오르네오유스 리뷰 마감",
+      "date": "2026-12-07",
+      "done": false,
+      "project": "P-002",
+      "memo": ""
+    },
+    {
+      "id": "s12",
+      "cat": "announce",
+      "title": "클라우드리뷰 반려동물 2 · KICT · 건강모아",
+      "date": "2026-12-07",
+      "done": false,
+      "project": "P-003",
+      "memo": "KICT 커피 100명 · 건강모아 GS25 1만 원"
+    },
+    {
+      "id": "s13",
+      "cat": "income",
+      "title": "기가팡 10,000P 적립 확인",
+      "date": "2026-12-08",
+      "done": false,
+      "project": "P-002",
+      "memo": "12/03~09 사이 적립"
+    },
+    {
+      "id": "s14",
+      "cat": "announce",
+      "title": "리뷰플레이스 페이장브레통",
+      "date": "2026-12-08",
+      "done": false,
+      "project": "P-002",
+      "memo": ""
+    },
+    {
+      "id": "s15",
+      "cat": "announce",
+      "title": "클라우드리뷰 홍삼 · 강화군청 설문",
+      "date": "2026-12-09",
+      "done": false,
+      "project": "P-003",
+      "memo": "홍삼 99,000원 상당 · 강화군청 커피 1만 원권 100명"
+    },
+    {
+      "id": "s16",
+      "cat": "income",
+      "title": "기가팡 입금 예상",
+      "date": "2026-12-10",
+      "done": false,
+      "project": "P-002",
+      "memo": "출금 신청 후 다음 주 수요일 · 9,670원"
+    },
+    {
+      "id": "s17",
+      "cat": "income",
+      "title": "탄소중립포인트 +2,000P 입금 확인",
+      "date": "2026-12-11",
+      "done": false,
+      "project": "",
+      "memo": ""
+    },
+    {
+      "id": "s18",
+      "cat": "contest",
+      "title": "국토안전관리원 아이디어 마감",
+      "date": "2026-12-10",
+      "done": false,
+      "project": "",
+      "memo": "24:00 · 6건 90만 원"
+    },
+    {
+      "id": "s19",
+      "cat": "contest",
+      "title": "국가시범도시 Track 01 마감",
+      "date": "2026-12-14",
+      "done": false,
+      "project": "",
+      "memo": "18:00 · 6점 240만 원"
+    },
+    {
+      "id": "s20",
+      "cat": "contest",
+      "title": "단종문화제 슬로건 마감",
+      "date": "2026-12-17",
+      "done": false,
+      "project": "",
+      "memo": "18:00 전 제출 권장 · 공백 포함 10자"
+    },
+    {
+      "id": "s21",
+      "cat": "announce",
+      "title": "밀양아리랑 AI 포스터 발표",
+      "date": "2026-12-18",
+      "done": false,
+      "project": "P-001",
+      "memo": "사이트 공고 + 개별 문자"
+    },
+    {
+      "id": "s22",
+      "cat": "contest",
+      "title": "세종 AI 불씨 마감",
+      "date": "2026-12-20",
+      "done": false,
+      "project": "",
+      "memo": "24:00 · 이미지 1~3컷 · AI 도구 기재"
+    },
+    {
+      "id": "s23",
+      "cat": "review",
+      "title": "메타웰 3종 리뷰 마감",
+      "date": "2027-03-31",
+      "done": false,
+      "project": "P-002",
+      "memo": "사진 8장·1,300자·키워드 5회·6개월 유지"
+    },
+    {
+      "id": "s24",
+      "cat": "announce",
+      "title": "제주관광공사 만족도 발표 확인",
+      "date": "2026-12-07",
+      "done": false,
+      "project": "P-003",
+      "memo": "공지에 발표일 미기재 · 12/07~08 확인"
+    },
+    {
+      "id": "s25",
+      "cat": "task",
+      "title": "애드포스트 재검수 신청",
+      "date": "2027-01-04",
+      "done": false,
+      "project": "",
+      "memo": "보류 사유 UV·PV 부족 · 12월 유입 확인 후 검수요청 버튼"
+    }
+  ],
+  "income": [
+    {
+      "id": "i1",
+      "date": "2026-12-10",
+      "project": "P-002",
+      "type": "expected",
+      "amount": 9670,
+      "label": "기가팡 10,000P 세후",
+      "memo": "12/03~09 적립 → 출금 신청 후 다음 주 수요일"
+    },
+    {
+      "id": "i2",
+      "date": "2026-12-31",
+      "project": "P-002",
+      "type": "pending",
+      "amount": 90000,
+      "label": "발표 대기 현금 8건",
+      "memo": "에디브이 20,000P · 하나두울 10,000P · 노란마켓 15,000원 · 링블 10,000P×3 · 실손24 10,000P · 파블로 5,000P"
+    }
+  ],
+  "work": [
+    {
+      "id": "w1",
+      "date": "2026-11-20",
+      "project": "P-002",
+      "task": "기가팡 리뷰 작성·발행",
+      "min": 120,
+      "est": true
+    },
+    {
+      "id": "w2",
+      "date": "2026-11-19",
+      "project": "P-002",
+      "task": "홍화사주 리뷰 작성·제출",
+      "min": 90,
+      "est": true
+    },
+    {
+      "id": "w3",
+      "date": "2026-11-27",
+      "project": "P-002",
+      "task": "오르네오유스 전자서명·조건 확인",
+      "min": 15,
+      "est": true
+    },
+    {
+      "id": "w4",
+      "date": "2026-11-27",
+      "project": "P-007",
+      "task": "한전KPS 아이디어 초안 작성",
+      "min": 60,
+      "est": true
+    }
+  ],
+  "ai": [
+    {
+      "id": "ai1",
+      "ai": "피클",
+      "role": "발굴·접수·상태 확인·초안·보고",
+      "result": "체험단 245건 신청·확인, 공모전 5건 조사, 한전KPS 초안, 이 대시보드 제작",
+      "note": "하루 20건 안팎 자동"
+    },
+    {
+      "id": "ai2",
+      "ai": "GPT",
+      "role": "블로그 문체·SEO 검토, 아이디어 검토",
+      "result": "블로그 퇴고·한전KPS 초안 검토 요청",
+      "note": "사용자 병행"
+    },
+    {
+      "id": "ai3",
+      "ai": "제미나이",
+      "role": "기록 없음",
+      "result": "추가 예정",
+      "note": ""
+    }
+  ],
+  "lesson": "실패 원인 ① '정원 미달'도 접수 후 24~48시간에 경쟁률이 10~20배로 뛴다(29→192/10). ② 고경쟁 캠페인은 확률 1%(743/10, 325/39). ③ 업체가 선정자를 뽑지 않는 공고도 있다(174명 전원 미선정). ④ 인스타·얼굴·영상·페이백을 빼면 0원 배송형 풀이 좁다. ⑤ 결과 확인 지연·미게시로 '선정인데 모르는' 리스크가 남는다.\n\n개선 방향 ① 클라우드리뷰 배송형 미달 스캔 상시화 — 첫 검증 11/30. ② 현금성 기자단 비중 확대(10,000~20,000P 원고형). ③ 접수 24시간 뒤 경쟁률 재확인. ④ 재도전 캠페인 활용(가니쉬 4차→5차). ⑤ 선정 알림 시 계약서 조건 먼저 확인. ⑥ 영상 1개(3~5초)까지 허용 검토."
+}
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ================= utils ================= */
+  var DAY = 86400000;
+  var WD = ['일', '월', '화', '수', '목', '금', '토'];
+
+  function $(s, r) { return (r || document).querySelector(s); }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function escAttr(s) {
+    return esc(s).replace(/"/g, '&quot;');
+  }
+  function parseDate(s) {
+    if (!s) return null;
+    var p = String(s).split('-');
+    if (p.length < 3) return null;
+    return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  }
+  function today0() {
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  function diffDays(s) {
+    var d = parseDate(s);
+    if (!d) return 9999;
+    return Math.round((d.getTime() - today0().getTime()) / DAY);
+  }
+  function ddLabel(s) {
+    var d = diffDays(s);
+    if (d === 9999) return '';
+    if (d === 0) return 'D-DAY';
+    return d > 0 ? 'D-' + d : 'D+' + Math.abs(d);
+  }
+  function fmt(s) {
+    var d = parseDate(s);
+    if (!d) return '';
+    return (d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + '(' + WD[d.getDay()] + ')';
+  }
+  function fmtLong(s) {
+    var d = parseDate(s);
+    if (!d) return '';
+    return d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
+  }
+  function tone(d) {
+    if (d < 0) return 'gray';
+    if (d <= 3) return 'red';
+    if (d <= 7) return 'amber';
+    return 'gray';
+  }
+  function money(n) {
+    var v = Math.round(Number(n) || 0);
+    return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+  function hhmm(min) {
+    min = Number(min || 0);
+    var h = Math.floor(min / 60), m = min % 60;
+    if (!h) return m + '분';
+    return h + '시간' + (m ? ' ' + m + '분' : '');
+  }
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function load(k, fb) {
+    try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : fb; } catch (e) { return fb; }
+  }
+  function save(k, v) {
+    try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; }
+  }
+  function setText(id, t) { var el = document.getElementById(id); if (el) el.textContent = t; }
+
+  var toastTimer = null;
+  function toast(msg) {
+    var t = $('#toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2300);
+  }
+
+  /* ================= data ================= */
+  var DEFAULT = JSON.parse(document.getElementById('defaultData').textContent);
+  var DB_KEY = 'aidash.db.v1';
+  var DB = load(DB_KEY, null);
+  if (!DB || !Array.isArray(DB.projects)) DB = clone(DEFAULT);
+  if (!DB.deleted) DB.deleted = [];
+
+  function saveDB() {
+    save(DB_KEY, DB);
+  }
+
+  var CAT = {
+    contest: { label: '공모전 마감', cls: 'green' },
+    announce: { label: '발표', cls: 'amber' },
+    review: { label: '리뷰 마감', cls: 'slate' },
+    income: { label: '입금 예정', cls: 'green' },
+    task: { label: '내 업무', cls: 'red' }
+  };
+  var ST = {
+    win: { label: '선정', cls: 'green' },
+    wait: { label: '대기', cls: 'amber' },
+    lose: { label: '미선정', cls: 'gray' },
+    cancel: { label: '취소', cls: 'slate' }
+  };
+  var INC = {
+    actual: { label: '실제', cls: 'green', tag: 'real' },
+    expected: { label: '예정', cls: 'amber', tag: 'plan' },
+    pending: { label: '대기', cls: 'gray', tag: 'plan' }
+  };
+
+  function sumBy(arr, f) {
+    return arr.reduce(function (s, x) { return s + Number(f(x) || 0); }, 0);
+  }
+  function projectName(no) {
+    var p = DB.projects.filter(function (x) { return x.no === no; })[0];
+    return p ? p.name : '';
+  }
+  function statusTone(s) {
+    if (/보류|중단|보완/.test(s)) return 'amber';
+    if (/취소|실패|미선정/.test(s)) return 'gray';
+    return 'green';
+  }
+
+  /* ================= merge / sync ================= */
+  function mergeData(server, local) {
+    var out = clone(server);
+    var del = (local && local.deleted) || [];
+    var delSet = {};
+    del.forEach(function (id) { delSet[id] = 1; });
+    ['projects', 'reviews', 'apps', 'schedules', 'income', 'work', 'ai'].forEach(function (k) {
+      var sArr = server[k] || [];
+      var lArr = (local && local[k]) || [];
+      var smap = {};
+      sArr.forEach(function (x) { smap[x.id] = 1; });
+      var lmap = {};
+      lArr.forEach(function (x) { lmap[x.id] = x; });
+      var merged = [];
+      sArr.forEach(function (sx) {
+        if (delSet[sx.id]) return;
+        var lx = lmap[sx.id];
+        merged.push(lx && lx._u ? clone(lx) : sx);
+      });
+      lArr.forEach(function (lx) {
+        if (!smap[lx.id] && !delSet[lx.id]) merged.push(clone(lx));
+      });
+      out[k] = merged;
+    });
+    if (local) {
+      if (local.goal) out.goal = local.goal;
+      if (typeof local.cost === 'number') out.cost = local.cost;
+      if (typeof local.lesson === 'string') out.lesson = local.lesson;
+      out.deleted = del;
+    }
+    return out;
+  }
+
+  function markAllUser(obj) {
+    ['projects', 'reviews', 'apps', 'schedules', 'income', 'work', 'ai'].forEach(function (k) {
+      (obj[k] || []).forEach(function (x) { x._u = 1; });
+    });
+    return obj;
+  }
+
+  var sync = load('aidash.sync.v1', null);
+
+  function syncText() {
+    if (!sync || !sync.at) return '아직 동기화 안 됨 · 내장 데이터';
+    var d = new Date(sync.at);
+    var t = (d.getMonth() + 1) + '/' + String(d.getDate()).padStart(2, '0') + ' ' +
+      String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    return 'data.json · ' + t + (sync.ok ? ' · 자동 반영' : ' · 오프라인');
+  }
+
+  function paintSync() {
+    var el = document.getElementById('syncTime');
+    if (!el) return;
+    var ok = sync && sync.ok;
+    el.innerHTML = '<span class="sync-dot' + (ok ? '' : ' off') + '"></span>' + esc(syncText());
+  }
+
+  function loadRemote() {
+    if (!window.fetch) return Promise.resolve(false);
+    return fetch('./data.json?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('http ' + r.status);
+        return r.json();
+      })
+      .then(function (json) {
+        if (!json || !Array.isArray(json.projects) || !Array.isArray(json.reviews)) throw new Error('schema');
+        DB = mergeData(json, DB);
+        saveDB();
+        sync = { at: new Date().toISOString(), ok: true, updated: json.updated || '' };
+        save('aidash.sync.v1', sync);
+        renderAll();
+        paintSync();
+        return true;
+      })
+      .catch(function () {
+        if (!sync || !sync.at) sync = { at: '', ok: false };
+        else sync.ok = false;
+        save('aidash.sync.v1', sync);
+        paintSync();
+        return false;
+      });
+  }
+
+  /* ================= tracker ================= */
+  function trackerHtml() {
+    return DB.reviews.map(function (r) {
+      var active = r.state === 'active';
+      var on = !!r.done;
+      var dueBadge = '';
+      if (active && r.due) {
+        dueBadge = '<span class="badge ' + tone(diffDays(r.due)) + '">' + ddLabel(r.due) + ' · ' + esc(r.dueNote || '') + '</span>';
+      }
+      var btn = active
+        ? '<button class="checkbtn ' + (on ? 'on' : '') + '" data-act="toggle-review" data-id="' + r.id + '">' + (on ? '리뷰 완료 ✓' : '리뷰 완료로 체크') + '</button>'
+        : '<button class="checkbtn" disabled>취소 건 — 리뷰 없음</button>';
+      return '<article class="rev' + (active ? '' : ' cancel') + '">' +
+        '<div class="rev-top"><span class="pf">' + esc(r.pf) + '</span>' +
+        '<span class="badge ' + r.tone + '">' + esc(r.result) + '</span></div>' +
+        '<div class="rev-name">' + esc(r.name) + '<span class="rev-val">' + esc(r.value) + '</span></div>' +
+        '<div class="rev-rows">' +
+        '<div class="rr"><span>배송·진행</span><b>' + esc(r.progress) + '</b></div>' +
+        '<div class="rr"><span>리뷰</span><b class="' + (r.reviewTone || '') + '">' + esc(r.review) + '</b></div>' +
+        '<div class="rr"><span>일정</span><b>' + (r.due ? fmt(r.due) + ' ' : '') + dueBadge + '</b></div>' +
+        '</div>' + btn + '</article>';
+    }).join('');
+  }
+
+  function paintTracker() {
+    var html = trackerHtml();
+    ['trackerHome'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.innerHTML = html;
+    });
+    var act = DB.reviews.filter(function (r) { return r.state === 'active'; });
+    var done = act.filter(function (r) { return r.done; }).length;
+    var pct = act.length ? Math.round(done / act.length * 100) : 0;
+    setText('revSide', done + ' / ' + act.length + ' 완료');
+    setText('revCount', pct + '%');
+    var b = document.getElementById('revBar');
+    if (b) b.style.width = pct + '%';
+  }
+
+  /* ================= home ================= */
+  function paintGoal() {
+    var now = new Date();
+    var m = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    var actual = sumBy(DB.income.filter(function (i) { return i.type === 'actual' && String(i.date).indexOf(m) === 0; }), function (i) { return i.amount; });
+    var expected = sumBy(DB.income.filter(function (i) { return i.type === 'expected' && String(i.date).indexOf(m) === 0; }), function (i) { return i.amount; });
+    var futureExpected = sumBy(DB.income.filter(function (i) { return i.type === 'expected'; }), function (i) { return i.amount; });
+    var min = (DB.goal && DB.goal.min) || 100000;
+    var max = (DB.goal && DB.goal.max) || 200000;
+    setText('goalActual', money(actual) + '원');
+    setText('goalExpected', money(futureExpected) + '원');
+    var ga = Math.min(actual / min * 100, 100);
+    var ge = Math.min(expected / min * 100, 100 - ga);
+    var gA = document.getElementById('gaugeA'), gE = document.getElementById('gaugeE');
+    if (gA) gA.style.width = ga + '%';
+    if (gE) gE.style.width = ge + '%';
+    var note = actual === 0
+      ? '이번 달 입금은 아직 0원입니다. 목표 ' + money(min) + '원까지 ' + money(min - actual) + '원 남았습니다.'
+      : '목표 ' + money(min) + '~' + money(max) + '원 중 ' + Math.round(actual / min * 100) + '% 달성.';
+    var nextExp = DB.income.filter(function (i) { return i.type === 'expected' && diffDays(i.date) > 0; })[0];
+    if (nextExp && expected === 0) {
+      note += ' ' + fmt(nextExp.date).replace(/\(.\)/, '') + ' 예정 ' + money(futureExpected) + '원이 잡혀 있습니다.';
+    }
+    setText('goalNote', note);
+    setText('goalPct', Math.round(actual / min * 100) + '%');
+  }
+
+  function paintKpis() {
+    var actual = sumBy(DB.income.filter(function (i) { return i.type === 'actual'; }), function (i) { return i.amount; });
+    var expected = sumBy(DB.income.filter(function (i) { return i.type === 'expected'; }), function (i) { return i.amount; });
+    var pending = sumBy(DB.income.filter(function (i) { return i.type === 'pending'; }), function (i) { return i.amount; });
+    var goods = sumBy(DB.projects, function (p) { return p.goods; });
+    var receivedGoods = 0;
+    var cp = DB.points.filter(function (p) { return p.n.indexOf('쿠팡') === 0; })[0];
+    var cpNum = cp ? String(cp.v).replace(/[^0-9,]/g, '') : '31,450';
+    var cpOthers = DB.points.filter(function (p) { return p.n.indexOf('쿠팡') !== 0; }).slice(0, 4)
+      .map(function (p) { return p.n + ' ' + p.v; }).join(' · ');
+    var cost = Number(DB.cost || 0);
+
+    var html = '' +
+      '<div><div class="k-label">실제 입금' + tag('real') + '</div><div class="k-value">' + money(actual) + '<small>원</small></div>' +
+      '<div class="k-sub">누적 · 첫 현금 12/10 이후 예상</div></div>' +
+      '<div><div class="k-label">확정·지급 예정' + tag('plan') + '</div><div class="k-value">' + money(expected) + '<small>원</small></div>' +
+      '<div class="k-sub green">기가팡 12/03~09 적립</div></div>' +
+      '<div><div class="k-label">발표 대기 현금' + tag('plan') + '</div><div class="k-value">' + money(pending) + '<small>원</small></div>' +
+      '<div class="k-sub">세후 약 87,000 · 8건 (확률 아님)</div></div>' +
+      '<div><div class="k-label">수령 물품 / 제공 예정</div><div class="k-value">' + receivedGoods + '<small>건</small></div>' +
+      '<div class="k-sub">제공 예정 ' + money(goods) + '원 (메타웰 199,000 + 오르네오 25,000)</div></div>' +
+      '<div><div class="k-label">누적 포인트</div><div class="k-value">' + esc(cpNum) + '<small>점</small></div>' +
+      '<div class="k-sub">쿠팡 583건 · ' + esc(cpOthers) + '</div></div>' +
+      '<div><div class="k-label">투자 비용 / 순수익' + tag('real') + '</div><div class="k-value">' + money(cost) + '<small>원</small></div>' +
+      '<div class="k-sub">순수익 ' + money(actual - cost) + '원 · 현금 기준</div></div>';
+    document.getElementById('kpiGrid').innerHTML = html;
+  }
+  function tag(kind) {
+    return '<span class="tag ' + (kind === 'real' ? 'real' : 'plan') + '">' + (kind === 'real' ? '실제' : '예상') + '</span>';
+  }
+
+  function paintMonthChart() {
+    var months = [];
+    var base = new Date();
+    for (var i = 0; i < 3; i++) {
+      var d = new Date(base.getFullYear(), base.getMonth() + i, 1);
+      months.push({ key: d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'), label: (d.getMonth() + 1) + '월' });
+    }
+    var max = (DB.goal && DB.goal.min) || 100000;
+    months.forEach(function (m) {
+      var rows = DB.income.filter(function (x) { return String(x.date).indexOf(m.key) === 0; });
+      m.actual = sumBy(rows.filter(function (x) { return x.type === 'actual'; }), function (x) { return x.amount; });
+      m.expected = sumBy(rows.filter(function (x) { return x.type === 'expected'; }), function (x) { return x.amount; });
+      m.pending = sumBy(rows.filter(function (x) { return x.type === 'pending'; }), function (x) { return x.amount; });
+      max = Math.max(max, m.actual + m.expected + m.pending);
+    });
+    var html = months.map(function (m) {
+      var a = m.actual / max * 100, e = m.expected / max * 100, p = m.pending / max * 100;
+      return '<div class="prow"><div class="prow-top"><b>' + m.label + '</b>' +
+        '<span class="right">실제 ' + money(m.actual) + ' · 예정 ' + money(m.expected) + ' · 대기 ' + money(m.pending) + '</span></div>' +
+        '<div class="bar multi" style="margin-top:8px">' +
+        '<i style="width:' + a + '%;background:#16a34a"></i>' +
+        '<i style="width:' + e + '%;background:#eab308"></i>' +
+        '<i style="width:' + p + '%;background:#cbd5e1"></i></div></div>';
+    }).join('');
+    document.getElementById('monthChart').innerHTML = html +
+      '<div class="gauge-legend" style="margin-top:12px"><span><i class="dot" style="background:#16a34a"></i>실제</span>' +
+      '<span><i class="dot" style="background:#eab308"></i>예정</span>' +
+      '<span><i class="dot" style="background:#cbd5e1"></i>대기</span>' +
+      '<span style="color:#9ca3af">막대 기준 ' + money(max) + '원</span></div>';
+  }
+
+  function paintToday() {
+    var list = DB.schedules.filter(function (s) { return !s.done && diffDays(s.date) <= 1; })
+      .sort(function (a, b) { return parseDate(a.date) - parseDate(b.date); });
+    var shown = list.slice(0, 5);
+    document.getElementById('todaySide').textContent = list.length + '건';
+    document.getElementById('todayList').innerHTML = shown.length ? shown.map(schedRow).join('') : '<div class="empty">오늘·내일 마감이 없어요.</div>';
+  }
+
+  function paintProjectsOverview() {
+    document.getElementById('projOverview').innerHTML = DB.projects.map(function (p) {
+      var d = p.deadline ? ddLabel(p.deadline) : '';
+      return '<div class="arow" data-act="open-project" data-id="' + p.id + '" style="cursor:pointer">' +
+        '<div class="l"><div class="pf2">' + esc(p.no) + ' · ' + esc(p.cat) + '</div>' +
+        '<div class="nm" style="font-weight:700">' + esc(p.name) + '</div>' +
+        '<div class="note">' + esc(p.summary) + '</div></div>' +
+        '<div class="r"><span class="badge ' + (p.tone || 'green') + '">' + esc(p.status) + '</span>' +
+        (d ? '<span class="dt">' + d + '</span>' : '') + '</div></div>';
+    }).join('');
+  }
+
+  function paintHome() {
+    paintTracker();
+    paintGoal();
+    paintKpis();
+    paintMonthChart();
+    paintToday();
+    paintProjectsOverview();
+    paintSync();
+  }
+
+  /* ================= projects ================= */
+  var UI = {
+    tab: 'home',
+    expanded: {},
+    appFilter: 'all',
+    appQuery: '',
+    schedFilter: 'all'
+  };
+
+  function projectCard(p) {
+    var d = p.deadline ? ddLabel(p.deadline) : '';
+    var exp = UI.expanded[p.id];
+    var nums = [];
+    if (p.points) nums.push(['포인트', money(p.points) + '점']);
+    else {
+      nums.push(['실제', money(p.actual) + '원']);
+      nums.push(['예정', money(p.expected) + '원']);
+      nums.push(['대기', money(p.pending) + '원']);
+    }
+    var detail = '';
+    if (exp) {
+      detail = '<div class="p-detail">';
+      if (p.memo) detail += '<p class="p-memo">' + esc(p.memo) + '</p>';
+      if (p.link) detail += '<div class="btns"><a class="btn line" href="' + escAttr(p.link) + '" target="_blank" rel="noopener">링크 열기</a></div>';
+      if (p.no === 'P-002') {
+        detail += '<div class="p2stats">' +
+          '<div><span>누적 신청</span><b>245건</b></div>' +
+          '<div><span>선정률</span><b>2.4%</b></div>' +
+          '<div><span>현금 지급 예정</span><b>9,670원</b></div>' +
+          '<div><span>물품 제공 예정</span><b>224,000원</b></div></div>' +
+          '<div class="p2paid"><span>실제 입금액</span><b>0원</b></div>' +
+          '<div class="sec" style="margin-top:18px"><h2 style="font-size:14px">선정 건별 리뷰</h2><span class="side">' + reviewDoneText() + '</span></div>';
+        detail += trackerHtml();
+        detail += appsSectionHtml();
+      }
+      if (p.no === 'P-007') {
+        detail += '<div class="btns"><button class="btn dark" data-act="draft">초안 보기·복사</button></div>';
+      }
+      if (p.ev) {
+        detail += '<div class="note-box">공모전 기대값(추정) <b>' + money(p.ev) + '원</b> — 확정 수익이 아니라 확률을 곱한 값입니다.</div>';
+      }
+      detail += '</div>';
+    }
+    var stack = '';
+    if (p.no === 'P-002') {
+      stack = '<div class="stack">' +
+        '<i style="width:2.45%;background:#16a34a"></i>' +
+        '<i style="width:25.31%;background:#eab308"></i>' +
+        '<i style="width:66.94%;background:#9ca3af"></i>' +
+        '<i style="width:5.31%;background:#64748b"></i></div>' +
+        '<div class="gauge-legend" style="margin-top:9px;font-size:11px;gap:10px">' +
+        '<span><i class="dot" style="background:#16a34a"></i>선정 6</span>' +
+        '<span><i class="dot" style="background:#eab308"></i>대기 62</span>' +
+        '<span><i class="dot" style="background:#9ca3af"></i>미선정 164</span>' +
+        '<span><i class="dot" style="background:#64748b"></i>기타 13</span></div>' +
+        '<div class="k-sub" style="margin-top:6px">신청 245건 기준 · 11/27 실측</div>';
+    }
+    return '<article class="card proj" id="proj-' + p.id + '">' +
+      '<div class="p-top"><span class="p-no">' + esc(p.no) + '</span>' +
+      '<span class="badge ' + (p.tone || 'green') + '">' + esc(p.status) + '</span>' +
+      (d ? '<span class="badge ' + tone(diffDays(p.deadline)) + '">' + d + '</span>' : '') + '</div>' +
+      '<h3 class="p-name">' + esc(p.name) + '</h3>' +
+      '<p class="p-sum">' + esc(p.summary) + '</p>' +
+      '<div class="p-nums">' + nums.map(function (n) {
+        return '<div><span>' + n[0] + '</span><b>' + n[1] + '</b></div>';
+      }).join('') + '</div>' + stack +
+      (p.next ? '<div class="p-next"><b>다음</b> ' + esc(p.next) + '</div>' : '') +
+      '<div class="p-btns">' +
+      '<button data-act="toggle-project" data-id="' + p.id + '">' + (exp ? '접기' : '펼치기') + '</button>' +
+      '<button data-act="edit-project" data-id="' + p.id + '">수정</button>' +
+      '<button class="danger" data-act="del-project" data-id="' + p.id + '">삭제</button>' +
+      '</div>' + detail + '</article>';
+  }
+
+  function reviewDoneText() {
+    var act = DB.reviews.filter(function (r) { return r.state === 'active'; });
+    var done = act.filter(function (r) { return r.done; }).length;
+    return done + ' / ' + act.length + ' 완료';
+  }
+
+  function appsSectionHtml() {
+    return '<div class="sec" style="margin-top:20px"><h2 style="font-size:14px">신청 현황 · 선정 결과</h2>' +
+      '<span class="side">' + DB.apps.length + '건</span></div>' +
+      '<div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>' +
+      '<input id="appSearch" type="search" placeholder="플랫폼·제품 검색" value="' + escAttr(UI.appQuery) + '" autocomplete="off"></div>' +
+      '<div id="appBox">' + appsBoxHtml() + '</div>';
+  }
+
+  function appsBoxHtml() {
+    var counts = { all: DB.apps.length, win: 0, wait: 0, lose: 0, cancel: 0 };
+    DB.apps.forEach(function (a) { counts[a.st] = (counts[a.st] || 0) + 1; });
+    var chips = [['all', '전체'], ['win', '선정'], ['wait', '대기'], ['lose', '미선정'], ['cancel', '취소']];
+    var chipHtml = '<div class="chips">' + chips.map(function (c) {
+      return '<button class="chip ' + (UI.appFilter === c[0] ? 'on' : '') + '" data-act="app-filter" data-f="' + c[0] + '">' + c[1] + ' ' + counts[c[0]] + '</button>';
+    }).join('') + '</div>';
+    var order = { win: 0, cancel: 1, wait: 2, lose: 3 };
+    var q = UI.appQuery.toLowerCase();
+    var list = DB.apps.filter(function (a) {
+      if (UI.appFilter !== 'all' && a.st !== UI.appFilter) return false;
+      if (q && (a.pf + ' ' + a.nm).toLowerCase().indexOf(q) < 0) return false;
+      return true;
+    }).sort(function (a, b) {
+      if (order[a.st] !== order[b.st]) return order[a.st] - order[b.st];
+      return parseDate(a.dt) - parseDate(b.dt);
+    });
+    var rows = list.map(function (a) {
+      var meta = a.st === 'wait' ? fmt(a.dt) + ' · ' + ddLabel(a.dt) : fmt(a.dt);
+      return '<div class="arow"><div class="l"><div class="pf2">' + esc(a.pf) + '</div>' +
+        '<div class="nm">' + esc(a.nm) + '</div>' +
+        (a.note ? '<div class="note">' + esc(a.note) + '</div>' : '') + '</div>' +
+        '<div class="r"><span class="badge ' + ST[a.st].cls + '">' + ST[a.st].label + '</span>' +
+        '<span class="dt">' + meta + '</span></div></div>';
+    }).join('');
+    return chipHtml + (rows || '<div class="empty">검색 결과가 없어요.</div>');
+  }
+
+  function paintProjects() {
+    document.getElementById('projectList').innerHTML = DB.projects.map(projectCard).join('');
+    setText('projCount', '전체 ' + DB.projects.length);
+  }
+
+  /* ================= schedule ================= */
+  function schedRow(s) {
+    var d = diffDays(s.date);
+    var cat = CAT[s.cat] || CAT.task;
+    return '<div class="sched' + (s.done ? ' done' : '') + '">' +
+      '<label style="display:flex;align-items:flex-start;margin:0">' +
+      '<input class="tin" type="checkbox" data-act="toggle-schedule" data-id="' + s.id + '"' + (s.done ? ' checked' : '') + '>' +
+      '<span class="tbox"></span></label>' +
+      '<div class="sbody"><div class="t">' + esc(s.title) + '</div>' +
+      '<div class="m"><span class="badge ' + cat.cls + '">' + cat.label + '</span>' +
+      '<span class="badge ' + tone(d) + '">' + fmt(s.date) + ' ' + ddLabel(s.date) + '</span>' +
+      (s.project ? '<span class="badge gray">' + esc(s.project) + '</span>' : '') + '</div>' +
+      (s.memo ? '<div class="note">' + esc(s.memo) + '</div>' : '') + '</div>' +
+      '<div class="sacts"><button data-act="edit-schedule" data-id="' + s.id + '">수정</button>' +
+      '<button class="del" data-act="del-schedule" data-id="' + s.id + '">삭제</button></div></div>';
+  }
+
+  var CONTEST_MINI = [
+    { t: '한전KPS AI 아이디어', d: '2026-12-06', p: '8팀 300만 · 초안 P-007', l: 'https://naver.me/5Z1tnsAk' },
+    { t: '국토안전관리원 아이디어', d: '2026-12-10', p: '6건 90만', l: 'https://bigtori.kalis.or.kr/contest/ai-idea-contest' },
+    { t: '국가시범도시 Track 01', d: '2026-12-14', p: '6점 240만', l: 'https://smartcity-ai.kr/notice' },
+    { t: '단종문화제 슬로건', d: '2026-12-17', p: '5명 200만', l: 'http://www.ywcf.or.kr/cultural-events/242' },
+    { t: '세종 AI 불씨', d: '2026-12-20', p: '14개 480만', l: 'https://www.sjcu.ac.kr/aispark/main/index.asp' }
+  ];
+
+  function paintSchedule() {
+    var counts = { all: DB.schedules.length };
+    Object.keys(CAT).forEach(function (k) { counts[k] = 0; });
+    DB.schedules.forEach(function (s) { counts[s.cat] = (counts[s.cat] || 0) + 1; });
+    var chips = [['all', '전체']].concat(Object.keys(CAT).map(function (k) { return [k, CAT[k].label]; }));
+    document.getElementById('schedChips').innerHTML = chips.map(function (c) {
+      return '<button class="chip ' + (UI.schedFilter === c[0] ? 'on' : '') + '" data-act="sched-filter" data-f="' + c[0] + '">' + c[1] + ' ' + (counts[c[0]] || 0) + '</button>';
+    }).join('');
+    var list = DB.schedules.filter(function (s) { return UI.schedFilter === 'all' || s.cat === UI.schedFilter; })
+      .sort(function (a, b) {
+        if (a.done !== b.done) return a.done ? 1 : -1;
+        return parseDate(a.date) - parseDate(b.date);
+      });
+    document.getElementById('schedList').innerHTML = list.length ? list.map(schedRow).join('') : '<div class="card"><div class="empty">일정이 없어요. + 일정 추가로 만들어 보세요.</div></div>';
+    var todayLeft = DB.schedules.filter(function (s) { return !s.done && diffDays(s.date) <= 0; }).length;
+    setText('schedCount', '전체 ' + DB.schedules.length + ' · 오늘까지 ' + todayLeft + '건');
+    var cm = document.getElementById('contestMini');
+    if (cm) cm.innerHTML = CONTEST_MINI.map(function (c) {
+      var d = diffDays(c.d);
+      return '<div class="arow"><div class="l"><div class="nm" style="font-weight:700">' + esc(c.t) + '</div>' +
+        '<div class="note">' + esc(c.p) + ' · ' + fmt(c.d) + '</div></div>' +
+        '<div class="r"><span class="badge ' + tone(d) + '">' + ddLabel(c.d) + '</span>' +
+        '<a class="btn line mini" href="' + escAttr(c.l) + '" target="_blank" rel="noopener" style="padding:6px 9px;font-size:11px">공고</a></div></div>';
+    }).join('');
+  }
+
+  /* ================= analytics ================= */
+  function paintPlatforms() {
+    document.getElementById('platformBars').innerHTML = DB.platforms.map(function (p) {
+      var w = p.w > 0 ? Math.max(p.w / p.a * 100, 2.5) : 0;
+      var right = p.a + '건 신청 / ' + (p.w > 0 ? '<em>' + p.w + '건 선정</em>' : '<span style="color:#9ca3af">0건 선정</span>');
+      return '<div class="prow"><div class="prow-top"><b>' + esc(p.n) + '</b>' +
+        '<span class="right">' + right + '</span></div>' +
+        '<div class="bar"><i style="width:' + w + '%"></i></div></div>';
+    }).join('');
+  }
+
+  function paintProjBars() {
+    var max = (DB.goal && DB.goal.min) || 100000;
+    DB.projects.forEach(function (p) {
+      max = Math.max(max, Number(p.actual || 0) + Number(p.expected || 0) + Number(p.pending || 0));
+    });
+    document.getElementById('projBars').innerHTML = DB.projects.map(function (p) {
+      var a = Number(p.actual || 0), e = Number(p.expected || 0), d = Number(p.pending || 0);
+      var total = a + e + d;
+      var segs = '';
+      if (total > 0) {
+        segs = '<i style="width:' + (a / max * 100) + '%;background:#16a34a"></i>' +
+          '<i style="width:' + (e / max * 100) + '%;background:#eab308"></i>' +
+          '<i style="width:' + (d / max * 100) + '%;background:#cbd5e1"></i>';
+      }
+      return '<div class="prow"><div class="prow-top"><b>' + esc(p.no) + ' ' + esc(p.name) + '</b>' +
+        '<span class="right">' + money(a) + ' / ' + money(e) + ' / ' + money(d) + '</span></div>' +
+        '<div class="bar multi" style="margin-top:8px">' + segs + '</div></div>';
+    }).join('') +
+      '<div class="note-box">공모전 기대값은 확정 수익이 아니라 확률을 곱한 추정값입니다. TOP 5 합계 90,800원 · 한전KPS 60,000원.</div>' +
+      '<div class="gauge-legend" style="margin-top:12px"><span><i class="dot" style="background:#16a34a"></i>실제</span>' +
+      '<span><i class="dot" style="background:#eab308"></i>예정</span>' +
+      '<span><i class="dot" style="background:#cbd5e1"></i>대기</span>' +
+      '<span style="color:#9ca3af">' + money(max) + '원 기준</span></div>';
+  }
+
+  function paintIncome() {
+    var el = document.getElementById('incomeBox');
+    if (!el) return;
+    var rows = DB.income.slice().sort(function (a, b) { return parseDate(b.date) - parseDate(a.date); });
+    var html = rows.map(function (i) {
+      return '<div class="wrow"><div class="l"><b>' + esc(i.label) + '</b>' +
+        '<span>' + fmt(i.date) + (i.project ? ' · ' + esc(i.project) : '') + (i.memo ? ' · ' + esc(i.memo) : '') + '</span></div>' +
+        '<div class="v">' + INC[i.type].label + ' ' + money(i.amount) + '원</div>' +
+        '<button data-act="edit-income" data-id="' + i.id + '">수정</button>' +
+        '<button data-act="del-income" data-id="' + i.id + '" style="color:#f87171">삭제</button></div>';
+    }).join('');
+    el.innerHTML = (html || '<div class="empty">수익 내역이 없어요.</div>') +
+      '<button class="btn line" data-act="add-income" style="width:100%;margin-top:12px">+ 수익 추가</button>' +
+      '<div class="note-box">[실제]는 입금된 돈, [예정]은 확정된 지급 예정, [대기]는 발표를 기다리는 돈입니다. 대기 금액은 아직 확률에 걸려 있습니다.</div>';
+  }
+
+  function paintWork() {
+    var totalMin = sumBy(DB.work, function (w) { return w.min; });
+    var hours = totalMin / 60;
+    var actual = sumBy(DB.income.filter(function (i) { return i.type === 'actual'; }), function (i) { return i.amount; });
+    var expected = sumBy(DB.income.filter(function (i) { return i.type === 'expected'; }), function (i) { return i.amount; });
+    var hourlyA = hours > 0 ? Math.round(actual / hours) : 0;
+    var hourlyE = hours > 0 ? Math.round(expected / hours) : 0;
+    var rows = DB.work.slice().sort(function (a, b) { return parseDate(b.date) - parseDate(a.date); }).map(function (w) {
+      return '<div class="wrow"><div class="l"><b>' + esc(w.task) + '</b>' +
+        '<span>' + fmt(w.date) + ' · ' + esc(w.project || '') + (w.est ? ' · 추정' : '') + '</span></div>' +
+        '<div class="v">' + hhmm(w.min) + '</div>' +
+        '<button data-act="del-work" data-id="' + w.id + '">삭제</button></div>';
+    }).join('');
+    document.getElementById('workBox').innerHTML =
+      '<div class="kv">' +
+      '<div><span>총 작업 시간</span><b>' + hhmm(totalMin) + '</b></div>' +
+      '<div><span>실제 시급</span><b>' + money(hourlyA) + '원</b></div>' +
+      '<div><span>예정 시급</span><b>' + money(hourlyE) + '원</b></div>' +
+      '<div><span>기록</span><b>' + DB.work.length + '건</b></div>' +
+      '</div>' +
+      '<div style="margin-top:12px">' + (rows || '<div class="empty">작업 시간 기록이 없어요.</div>') + '</div>' +
+      '<button class="btn line" data-act="add-work" style="width:100%;margin-top:12px">+ 작업 시간 기록</button>' +
+      '<div class="note-box" style="margin-top:10px">시급은 <b>실제 입금 ' + money(actual) + '원 ÷ ' + hours.toFixed(1) + '시간</b>으로 계산했습니다. 작업 시간을 직접 입력하면 바로 다시 계산됩니다.</div>';
+  }
+
+  function paintAi() {
+    document.getElementById('aiBox').innerHTML = DB.ai.map(function (a) {
+      return '<div class="ai-row"><div class="ai-top"><b>' + esc(a.ai) + '</b>' +
+        '<button class="sacts" data-act="del-ai" data-id="' + a.id + '" style="border:0;background:none;color:#f87171;font-size:10.5px;font-weight:700">삭제</button></div>' +
+        '<p><b>역할</b> ' + esc(a.role) + '</p>' +
+        '<p><b>결과</b> ' + esc(a.result) + '</p>' +
+        (a.note ? '<p><b>메모</b> ' + esc(a.note) + '</p>' : '') + '</div>';
+    }).join('') +
+      '<button class="btn line" data-act="add-ai" style="width:100%;margin-top:12px">+ AI 기록 추가</button>';
+  }
+
+  function paintLesson() {
+    var el = document.getElementById('lesson');
+    if (el && document.activeElement !== el) el.value = DB.lesson || '';
+  }
+
+  function paintAnalytics() {
+    paintPlatforms();
+    paintProjBars();
+    paintIncome();
+    paintWork();
+    paintAi();
+    paintLesson();
+  }
+
+  /* ================= render all ================= */
+  function renderAll() {
+    paintHome();
+    paintProjects();
+    paintSchedule();
+    paintAnalytics();
+  }
+
+  /* ================= sheet ================= */
+  function sheetHead(title, sub) {
+    return '<div class="grab"></div><div class="sheet-head"><h3>' + title + '</h3>' +
+      '<button class="close" data-act="close-sheet" aria-label="닫기">✕</button></div>' +
+      (sub ? '<p class="page-sub" style="margin-top:8px">' + sub + '</p>' : '');
+  }
+  function openSheet(html) {
+    document.getElementById('sheetBody').innerHTML = html;
+    document.getElementById('sheetWrap').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSheet() {
+    document.getElementById('sheetWrap').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function field(label, name, value, type, required) {
+    type = type || 'text';
+    var v = value == null ? '' : String(value);
+    if (type === 'textarea') {
+      return '<label class="field"><span>' + label + '</span><textarea name="' + name + '"' + (required ? ' required' : '') + '>' + esc(v) + '</textarea></label>';
+    }
+    return '<label class="field"><span>' + label + '</span><input name="' + name + '" type="' + type + '" value="' + escAttr(v) + '"' +
+      (required ? ' required' : '') + (type === 'number' ? ' inputmode="numeric" min="0" step="1"' : '') + '></label>';
+  }
+  function selectField(label, name, options, value) {
+    return '<label class="field"><span>' + label + '</span><select name="' + name + '">' +
+      options.map(function (o) {
+        var val = Array.isArray(o) ? o[0] : o;
+        var txt = Array.isArray(o) ? o[1] : o;
+        return '<option value="' + escAttr(val) + '"' + (String(val) === String(value) ? ' selected' : '') + '>' + esc(txt) + '</option>';
+      }).join('') + '</select></label>';
+  }
+
+  function projectForm(p) {
+    p = p || {};
+    return sheetHead(p.id ? '프로젝트 수정' : '프로젝트 추가', '금액은 원 단위로 입력하세요. 비워두면 0원.') +
+      '<form data-form="project" data-id="' + escAttr(p.id || '') + '">' +
+      field('프로젝트명', 'name', p.name, 'text', true) +
+      '<div class="frow">' + selectField('구분', 'cat', ['공모전', '체험단', '공공', '리뷰', '앱', '기타'], p.cat || '공모전') +
+      field('상태', 'status', p.status || '진행 중') + '</div>' +
+      field('마감일(발표일)', 'deadline', p.deadline, 'date') +
+      field('한 줄 요약', 'summary', p.summary) +
+      field('다음 할 일', 'next', p.next) +
+      '<div class="frow">' + field('실제 수익', 'actual', p.actual || 0, 'number') + field('확정·예정', 'expected', p.expected || 0, 'number') + '</div>' +
+      '<div class="frow">' + field('발표 대기', 'pending', p.pending || 0, 'number') + field('제공 물품가', 'goods', p.goods || 0, 'number') + '</div>' +
+      '<div class="frow">' + field('포인트', 'points', p.points || 0, 'number') + field('기대값(추정)', 'ev', p.ev || 0, 'number') + '</div>' +
+      field('메모', 'memo', p.memo, 'textarea') +
+      field('링크', 'link', p.link, 'url') +
+      '<div class="btns"><button type="button" class="btn line" data-act="close-sheet">취소</button>' +
+      '<button type="submit" class="btn dark">저장</button></div></form>';
+  }
+
+  function scheduleForm(s) {
+    s = s || {};
+    var opts = DB.projects.map(function (p) { return [p.no, p.no + ' ' + p.name]; });
+    opts.unshift(['', '없음']);
+    return sheetHead(s.id ? '일정 수정' : '일정 추가', 'D-day는 날짜에서 자동 계산됩니다.') +
+      '<form data-form="schedule" data-id="' + escAttr(s.id || '') + '">' +
+      selectField('분류', 'cat', Object.keys(CAT).map(function (k) { return [k, CAT[k].label]; }), s.cat || 'task') +
+      field('제목', 'title', s.title, 'text', true) +
+      field('날짜', 'date', s.date || todayStr(), 'date', true) +
+      selectField('프로젝트', 'project', opts, s.project || '') +
+      field('메모', 'memo', s.memo, 'textarea') +
+      '<div class="btns"><button type="button" class="btn line" data-act="close-sheet">취소</button>' +
+      '<button type="submit" class="btn dark">저장</button></div></form>';
+  }
+
+  function incomeForm(i) {
+    i = i || {};
+    var opts = DB.projects.map(function (p) { return [p.no, p.no + ' ' + p.name]; });
+    opts.unshift(['', '없음']);
+    return sheetHead(i.id ? '수익 수정' : '수익 추가', '[실제]는 입금된 돈, [예정]은 확정된 지급 예정, [대기]는 확률에 걸린 돈입니다.') +
+      '<form data-form="income" data-id="' + escAttr(i.id || '') + '">' +
+      selectField('구분', 'type', [['actual', '실제 입금'], ['expected', '확정·지급 예정'], ['pending', '발표 대기']], i.type || 'expected') +
+      field('금액(원)', 'amount', i.amount || 0, 'number', true) +
+      field('날짜', 'date', i.date || todayStr(), 'date', true) +
+      selectField('프로젝트', 'project', opts, i.project || '') +
+      field('항목', 'label', i.label, 'text', true) +
+      field('메모', 'memo', i.memo, 'textarea') +
+      '<div class="btns"><button type="button" class="btn line" data-act="close-sheet">취소</button>' +
+      '<button type="submit" class="btn dark">저장</button></div></form>';
+  }
+
+  function workForm(w) {
+    w = w || {};
+    var opts = DB.projects.map(function (p) { return [p.no, p.no + ' ' + p.name]; });
+    opts.unshift(['', '없음']);
+    return sheetHead('작업 시간 기록', '실제로 걸린 시간을 분 단위로 적으면 시급이 자동 계산됩니다.') +
+      '<form data-form="work" data-id="' + escAttr(w.id || '') + '">' +
+      field('작업', 'task', w.task, 'text', true) +
+      field('시간(분)', 'min', w.min || 30, 'number', true) +
+      field('날짜', 'date', w.date || todayStr(), 'date', true) +
+      selectField('프로젝트', 'project', opts, w.project || '') +
+      '<div class="btns"><button type="button" class="btn line" data-act="close-sheet">취소</button>' +
+      '<button type="submit" class="btn dark">저장</button></div></form>';
+  }
+
+  function aiForm() {
+    return sheetHead('AI 기록 추가', '어떤 AI에 어떤 일을 맡겼고 결과가 어땠는지 남깁니다.') +
+      '<form data-form="ai" data-id="">' +
+      field('AI', 'ai', '', 'text', true) +
+      field('역할', 'role', '') +
+      field('결과', 'result', '') +
+      field('메모', 'note', '') +
+      '<div class="btns"><button type="button" class="btn line" data-act="close-sheet">취소</button>' +
+      '<button type="submit" class="btn dark">저장</button></div></form>';
+  }
+
+  /* ================= draft ================= */
+  var DRAFT = {
+    title: '「마감체크」 사진과 음성으로 정비 복원 누락·잔류물을 잡는 AI 마감 점검 서비스',
+    summary: `○ 현재 정비·안전관리 업무에서 발생하는 문제점
+계획예방정비 기간에는 한 호기에서만 수천 건의 작업오더가 처리됩니다. 설비를 분해해 점검한 뒤 다시 조립하는 '복원' 단계에서는 볼트·커버 체결, 임시 블라인드와 공구 회수, 밸브 개폐 상태, 단열재와 계측 배선 복원 등 확인할 것이 많습니다. 그런데 이 확인은 대부분 작업자 본인과 감독자 두 사람의 기억, 종이 체크리스트, 육안에 의존합니다. 작업 전후로 찍은 사진도 개인 휴대폰에 흩어져 남을 뿐 정비 이력으로 이어지지 않습니다.
+
+○ 기존 업무방식의 한계 및 개선 필요성
+정비 막바지에는 기동 일정이 몰려 복원을 확인할 시간이 줄어듭니다. 사진을 찍어 두어도 다시 대조하지 않아 '찍어만 둔 사진'이 되고, 작업항목 누락은 감사나 사고가 난 뒤에야 드러납니다. 복원 누락 하나는 재작업과 기동 지연으로 이어지고, 이물질이 계통에 남으면 설비 손상으로 커집니다. 운전이 시작된 뒤에는 원인을 찾기도 어렵습니다. 확인하는 사람이 더 꼼꼼해지는 방식으로는 반복되는 누락을 막기 어렵고, 숙련자가 빠지면 확인의 질이 그대로 떨어집니다. 확인 결과가 데이터로 남지 않으니 같은 실수가 다음 회차에도 반복됩니다. 해마다 현장 인력이 바뀌고 협력사 작업 비중이 커지는데, 확인의 기준은 개인 경험에만 남아 있습니다.`,
+    content: `○ AI를 활용하여 해결하고자 하는 내용
+작업 전후 사진과 음성만으로 '복원이 끝났는지'를 확인해 주는 AI 점검 서비스입니다. 사람을 지켜보는 AI가 아니라, 작업자가 마지막에 한 번 더 확인하도록 돕는 도구입니다. 판단의 기준은 해당 작업의 정비 절차서와 작업허가서에 적힌 복원 항목이며, AI는 결론을 대신 내리지 않고 '확인이 필요한 항목'을 짚어 줍니다. 작업자가 확인한 결과는 사진·음성·시각과 함께 남아 그 자체로 마감 증빙이 됩니다.
+
+○ 서비스의 주요 기능 및 방식
+1) 반입·반출 대장: 작업 전 작업 구역과 공구·자재를 촬영하면 AI가 물품을 인식해 반입 목록을 만듭니다. 작업 후 같은 자리에서 찍은 사진과 대조해 회수되지 않은 공구와 이물질 후보를 표시합니다.
+2) 복원 체크 음성 대화: 절차서의 복원 항목을 AI가 하나씩 읽어 주고, 작업자가 "확인"이라고 답하면 시각·위치와 함께 기록됩니다. 장갑을 낀 양손을 쓰지 않아도 되고, 한국어가 서툰 협력사 작업자는 자기 언어로 안내받을 수 있습니다.
+3) 밸브·커버 상태 판독: 밸브 핸들 방향, 잠금장치, 커버 체결 여부를 사진에서 읽어 정상 배열과 비교하고, 다른 부분만 표시합니다.
+4) 마감 승인: 통과하지 못한 항목은 감독자에게 바로 알리고, 모든 항목이 확인되면 작업허가 종료 증빙으로 기록이 첨부됩니다.
+5) 누락 위험 예고: 과거에 누락이 잦았던 작업 유형이면 시작 전에 미리 알려 주의를 끕니다.
+
+○ 기존 방식과의 차별성
+첫째, 사람의 행동이 아니라 작업의 결과를 확인합니다. CCTV처럼 지켜보는 방식이 아니라 작업자가 먼저 쓰고 싶은 도구여서 현장과 협력사가 받아들이기 쉽습니다. 둘째, 사진을 찍고 끝나는 것이 아니라 전후 사진을 대조해 빠진 것을 찾아냅니다. 셋째, AI가 절차서 항목에 근거해 묻고 최종 판정은 사람이 하므로 엉뚱한 답이 섞일 위험을 줄였습니다. 넷째, 별도 센서나 카메라 공사 없이 현장에서 쓰는 스마트폰과 태블릿만으로 시작할 수 있어, 카메라가 닿지 않는 구역도 확인할 수 있습니다.
+
+○ 서비스 활용 시나리오
+계획예방정비 마지막 날, 정비원이 복원을 마치고 자기 구역을 촬영합니다. AI가 "이 구역 임시 블라인드 1개가 작업 전 사진에는 있고 지금 사진에는 없습니다"라고 알리고, 작업자는 남아 있는 블라인드를 찾아 제거합니다. 밸브 배열 확인에서 다른 항목이 뜨면 감독자가 현장에서 바로 확인합니다. 야간조에서 주간조로 업무가 넘어갈 때는 남은 확인 항목만 그대로 이어받아, 인수인계 때 처음부터 다시 확인하지 않아도 됩니다. 마감 기록은 작업허가 종료와 함께 저장되어 다음 회차 점검 자료가 됩니다.`,
+    effect: `○ 정비시간 단축 및 업무효율성 향상
+복원 확인에 걸리는 시간이 줄고, 기동 직전에 발견되는 재작업이 줄어 정지기간 단축에 보탬이 됩니다. 계획예방정비는 일정이 하루 밀리면 그만큼 발전이 멈춰 있어 손실이 커지므로, 마감 단계의 지연을 줄이는 것만으로 효과가 큽니다. 확인 과정이 기록으로 남아 보고서 작성과 증빙 준비 시간도 줄어듭니다.
+
+○ 안전사고 예방 및 위험요인 감소
+공구·이물질 잔류, 커버 미체결, 밸브 오배열처럼 기동 후 큰 사고로 번지는 누락을 기동 전에 잡습니다. 정비 막바지의 시간 압박 속에서도 확인 절차가 남고, 감독자가 모든 구역을 직접 보지 못하는 사각지대가 줄어듭니다. 기동 후 이상이 생겼을 때는 마감 기록으로 원인을 좁힐 수 있어 복구 시간도 짧아집니다.
+
+○ 기타 예상 개선효과
+누락 유형이 구역·작업종류·협력사별로 쌓이면 반복되는 취약 지점이 보이고, 다음 정비계획과 교육 자료에 바로 쓸 수 있습니다. 젊은 정비원도 숙련자의 확인 방식을 그대로 따라 할 수 있어 인력이 바뀌어도 품질이 유지됩니다. 협력사 작업자도 같은 기준으로 확인해 정비 품질 편차가 줄어듭니다.
+
+○ 실현 및 확장 가능성
+1단계는 음성 체크리스트와 사진 아카이브로 6개월 안에 시작할 수 있고, 이 단계만으로도 기록과 인수인계가 개선됩니다. 2단계에서 현장 사진을 학습해 공구·밸브 인식 정확도를 올리고, 3단계에서 정비이력 시스템과 연결합니다. 화력·원자력·송변전 사업소가 같은 절차서 체계를 쓰므로 한 곳에서 검증되면 다른 사업소로 옮기기 쉽고, 정기검사와 감사 대응 자료로도 그대로 활용할 수 있습니다. 시범 적용은 사업소 1곳, 계획예방정비 1회로 시작해 복원 관련 재작업 건수와 마감 확인 소요시간을 비교하면 효과를 숫자로 확인할 수 있습니다.`
+  };
+
+  function openDraft() {
+    openSheet(sheetHead('한전KPS 초안 「마감체크」', '12/6 마감 · 폼 12/7 00:00 · 지원분야 정비지원') +
+      '<div class="draft-block"><div class="db-head"><b>아이디어 명</b><span>' + DRAFT.title.length + '자</span></div>' +
+      '<pre class="db-body" id="dTitle" style="max-height:none">' + esc(DRAFT.title) + '</pre>' +
+      '<div style="padding:0 12px 12px"><button class="btn line" data-act="copy" data-k="title" style="width:100%">제목 복사</button></div></div>' +
+      '<div class="draft-block"><div class="db-head"><b>아이디어 요약</b><span>' + money(DRAFT.summary.length) + '자 / 2,000자</span></div>' +
+      '<pre class="db-body" id="dSummary">' + esc(DRAFT.summary) + '</pre>' +
+      '<div style="padding:0 12px 12px"><button class="btn line" data-act="copy" data-k="summary" style="width:100%">요약 복사</button></div></div>' +
+      '<div class="draft-block"><div class="db-head"><b>아이디어 내용</b><span>' + money(DRAFT.content.length) + '자 / 2,000자</span></div>' +
+      '<pre class="db-body" id="dContent">' + esc(DRAFT.content) + '</pre>' +
+      '<div style="padding:0 12px 12px"><button class="btn line" data-act="copy" data-k="content" style="width:100%">내용 복사</button></div></div>' +
+      '<div class="draft-block"><div class="db-head"><b>기대효과</b><span>' + money(DRAFT.effect.length) + '자 / 2,000자</span></div>' +
+      '<pre class="db-body" id="dEffect">' + esc(DRAFT.effect) + '</pre>' +
+      '<div style="padding:0 12px 12px"><button class="btn line" data-act="copy" data-k="effect" style="width:100%">기대효과 복사</button></div></div>' +
+      '<div class="btns"><button class="btn dark" data-act="copy" data-k="all">세 칸 전체 복사</button>' +
+      '<a class="btn green" href="https://naver.me/5Z1tnsAk" target="_blank" rel="noopener">신청 폼 열기</a></div>' +
+      '<p class="foot">초안은 요약 648자·내용 1,303자·기대효과 874자(각 2,000자 한도). 이름·연락처·이메일은 이 앱에 넣지 않았습니다.</p>');
+  }
+
+  /* ================= copy ================= */
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    return ok;
+  }
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).then(function () { return true; }).catch(function () { return legacyCopy(text); });
+    }
+    return Promise.resolve(legacyCopy(text));
+  }
+
+  /* ================= export / import ================= */
+  function csvCell(v) {
+    return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  }
+  function download(filename, text, mime) {
+    try {
+      var blob = new Blob([text], { type: mime });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(url); a.remove(); }, 1500);
+      return true;
+    } catch (e) { return false; }
+  }
+  function csvRows() {
+    var rows = [['구분', '프로젝트', '플랫폼', '항목', '상태', '날짜', '금액(원)', '완료', '비고']];
+    DB.projects.forEach(function (p) {
+      rows.push(['프로젝트', p.no + ' ' + p.name, '', p.name, p.status, p.deadline || '',
+        '실제 ' + p.actual + ' / 예정 ' + p.expected + ' / 대기 ' + p.pending + (p.points ? ' / 포인트 ' + p.points : ''),
+        '', (p.summary || '') + ' | ' + (p.memo || '')]);
+    });
+    DB.reviews.forEach(function (r) {
+      rows.push(['선정 리뷰', '', r.pf, r.name, r.result, r.due || '', r.value,
+        r.state === 'active' ? (r.done ? 'O' : 'X') : '취소', (r.progress || '') + ' | ' + (r.review || '')]);
+    });
+    DB.apps.forEach(function (a) {
+      rows.push(['체험단 신청', '', a.pf, a.nm, ST[a.st].label, a.dt || '', '', '', a.note || '']);
+    });
+    DB.schedules.forEach(function (s) {
+      rows.push(['일정', s.project || '', '', s.title, CAT[s.cat].label, s.date || '', '', s.done ? 'O' : 'X', s.memo || '']);
+    });
+    DB.income.forEach(function (i) {
+      rows.push(['수익', i.project || '', '', i.label, INC[i.type].label, i.date || '', i.amount, '', i.memo || '']);
+    });
+    DB.work.forEach(function (w) {
+      rows.push(['작업시간', w.project || '', '', w.task, w.est ? '추정' : '직접', w.date || '', '', '', w.min + '분']);
+    });
+    DB.points.forEach(function (p) {
+      rows.push(['포인트', '', '', p.n, '', '', p.v, '', p.note || '']);
+    });
+    return rows;
+  }
+  function exportCsv() {
+    var rows = csvRows();
+    var text = '\uFEFF' + rows.map(function (r) { return r.map(csvCell).join(','); }).join('\r\n');
+    var d = new Date();
+    var name = 'AI수익화_전체_' + d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '.csv';
+    if (download(name, text, 'text/csv;charset=utf-8')) toast('CSV를 내보냈어요 (엑셀에서 열기)');
+    else toast('다운로드가 막혔어요. 브라우저에서 다시 시도해 주세요');
+  }
+  function exportJson() {
+    var d = new Date();
+    var name = 'AI수익화_백업_' + d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '.json';
+    if (download(name, JSON.stringify(DB, null, 2), 'application/json')) toast('JSON 백업을 내보냈어요');
+    else toast('다운로드가 막혔어요');
+  }
+
+  /* ================= pin ================= */
+  var PIN_KEY = 'aidash.pin.v1';
+  function pinState() { return load(PIN_KEY, null); }
+  function hashPin(pin) {
+    var s = 'aidash:' + pin;
+    if (window.crypto && window.crypto.subtle && window.crypto.subtle.digest && window.TextEncoder) {
+      try {
+        return window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)).then(function (buf) {
+          return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+            return ('0' + b.toString(16)).slice(-2);
+          }).join('');
+        });
+      } catch (e) {}
+    }
+    var h = 2166136261;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return Promise.resolve('fnv' + (h >>> 0).toString(16));
+  }
+  function pinOn() { var p = pinState(); return !!(p && p.on); }
+
+  function openPinSetup() {
+    openSheet(sheetHead('PIN 잠금 켜기', '숫자 4자리를 두 번 입력하세요. 이 기기의 브라우저에 해시로만 저장됩니다.') +
+      '<label class="field"><span>새 PIN</span><input id="pin1" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password"></label>' +
+      '<label class="field"><span>한 번 더</span><input id="pin2" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password"></label>' +
+      '<p class="lock-msg" id="pinErr"></p>' +
+      '<div class="btns"><button class="btn line" data-act="close-sheet">취소</button>' +
+      '<button class="btn dark" id="pinSave">저장</button></div>');
+    document.getElementById('pinSave').onclick = function () {
+      var a = document.getElementById('pin1').value;
+      var b = document.getElementById('pin2').value;
+      if (!/^\d{4}$/.test(a)) { setText('pinErr', '숫자 4자리로 입력해 주세요.'); return; }
+      if (a !== b) { setText('pinErr', '두 번 입력한 PIN이 달라요.'); return; }
+      hashPin(a).then(function (h) {
+        save(PIN_KEY, { on: true, hash: h });
+        closeSheet();
+        toast('PIN 잠금을 켰어요');
+      });
+    };
+  }
+
+  function openPinOff() {
+    openSheet(sheetHead('PIN 잠금 끄기', '현재 PIN을 입력하세요.') +
+      '<label class="field"><span>현재 PIN</span><input id="pinCur" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label>' +
+      '<p class="lock-msg" id="pinErr2"></p>' +
+      '<div class="btns"><button class="btn line" data-act="close-sheet">취소</button>' +
+      '<button class="btn dark" id="pinOffBtn">끄기</button></div>');
+    document.getElementById('pinOffBtn').onclick = function () {
+      var v = document.getElementById('pinCur').value;
+      var p = pinState();
+      hashPin(v).then(function (h) {
+        if (p && p.hash === h) {
+          save(PIN_KEY, { on: false, hash: p.hash });
+          closeSheet();
+          toast('PIN 잠금을 껐어요');
+        } else {
+          setText('pinErr2', 'PIN이 맞지 않아요.');
+        }
+      });
+    };
+  }
+
+  function showLock(show) {
+    var el = document.getElementById('lock');
+    el.hidden = !show;
+    if (show) {
+      setTimeout(function () { var i = document.getElementById('lockPin'); if (i) i.focus(); }, 200);
+    }
+  }
+
+  function tryUnlock() {
+    var v = document.getElementById('lockPin').value;
+    var p = pinState();
+    hashPin(v).then(function (h) {
+      if (p && p.hash === h) {
+        showLock(false);
+        document.getElementById('lockPin').value = '';
+        document.getElementById('lockMsg').textContent = '';
+        renderAll();
+      } else {
+        setText('lockMsg', 'PIN이 맞지 않아요.');
+        document.getElementById('lockPin').value = '';
+        document.getElementById('lockPin').focus();
+      }
+    });
+  }
+
+  /* ================= settings ================= */
+  function openSettings() {
+    var on = pinOn();
+    openSheet(sheetHead('데이터 · 설정', '자동 저장 · 백업 · 내보내기') +
+      '<div class="set-block"><div class="set-title">동기화</div>' +
+      '<p class="set-desc" id="setSync">' + esc(syncText()) + '</p>' +
+      '<button class="btn line" data-act="refresh">data.json 새로고침</button></div>' +
+      '<div class="set-block"><div class="set-title">백업 · 복원</div>' +
+      '<p class="set-desc">JSON은 전체 데이터(프로젝트·일정·수익·체크 상태)를 담습니다. CSV는 엑셀에서 바로 열립니다(UTF-8 BOM).</p>' +
+      '<div class="btns"><button class="btn line" data-act="export-json">JSON 내보내기</button>' +
+      '<button class="btn line" data-act="import-json">JSON 불러오기</button></div>' +
+      '<button class="btn line" data-act="export-csv">CSV 전체 내보내기</button></div>' +
+      '<div class="set-block"><div class="set-title">잠금</div>' +
+      '<p class="set-desc">4자리 PIN은 기기 안에 해시로만 저장됩니다. 앱을 열 때 입력해야 내용이 보입니다. PIN을 잊으면 브라우저 데이터를 지워야 하니, 백업을 먼저 내보내 두세요.</p>' +
+      '<button class="btn line" data-act="' + (on ? 'pin-off' : 'pin-on') + '">' + (on ? 'PIN 잠금 끄기' : 'PIN 잠금 켜기') + '</button></div>' +
+      '<div class="set-block"><div class="set-title">초기화</div>' +
+      '<p class="set-desc">초기 데이터로 되돌립니다. 직접 추가·수정한 내용과 체크 상태는 사라집니다.</p>' +
+      '<button class="btn line danger" data-act="reset">초기 데이터로 리셋</button></div>' +
+      '<div class="set-block"><div class="set-title">정보</div>' +
+      '<ul class="set-info">' +
+      '<li><b>접속</b> 단일 HTML 파일. 폰에 저장해 열거나 GitHub Pages·Cloudflare Pages(무료)에 올리면 전용 HTTPS 주소가 생깁니다.</li>' +
+      '<li><b>저장</b> 이 브라우저의 localStorage에 자동 저장. JSON 백업/복원, UTF-8 BOM CSV 내보내기 지원.</li>' +
+      '<li><b>자동 업데이트</b> 배포 폴더에 <b>data.json</b>을 두면 열 때마다 읽어 새 항목만 병합합니다(수정·체크는 유지). 완전 무인 갱신은 GitHub Actions로 data.json을 커밋하는 무료 구조로 확장할 수 있습니다.</li>' +
+      '<li><b>비용</b> 0원. 유료 서버·계정 가입 없이 동작합니다.</li>' +
+      '</ul></div>' +
+      '<p class="foot">민감정보(자택 주소·계좌번호·연락처)는 앱과 data.json에 넣지 않았습니다.</p>');
+  }
+
+  /* ================= forms ================= */
+  function num(fd, k) { var v = fd.get(k); return v === '' || v == null ? 0 : Math.max(0, Math.round(Number(v) || 0)); }
+  function str(fd, k) { var v = fd.get(k); return v == null ? '' : String(v).trim(); }
+
+  function saveProject(id, fd) {
+    var p = null;
+    if (id) p = DB.projects.filter(function (x) { return x.id === id; })[0];
+    if (!p) {
+      var maxNo = 0;
+      DB.projects.forEach(function (x) {
+        var m = String(x.no || '').match(/(\d+)/);
+        if (m) maxNo = Math.max(maxNo, Number(m[1]));
+      });
+      p = { id: 'p' + Date.now(), no: 'P-' + String(maxNo + 1).padStart(3, '0') };
+      DB.projects.push(p);
+    }
+    p._u = 1;
+    p.name = str(fd, 'name') || '이름 없음';
+    p.cat = str(fd, 'cat');
+    p.status = str(fd, 'status') || '진행 중';
+    p.tone = statusTone(p.status);
+    p.deadline = str(fd, 'deadline');
+    p.summary = str(fd, 'summary');
+    p.next = str(fd, 'next');
+    p.actual = num(fd, 'actual');
+    p.expected = num(fd, 'expected');
+    p.pending = num(fd, 'pending');
+    p.goods = num(fd, 'goods');
+    p.points = num(fd, 'points');
+    p.ev = num(fd, 'ev');
+    p.memo = str(fd, 'memo');
+    p.link = str(fd, 'link');
+    saveDB();
+    closeSheet();
+    renderAll();
+    toast('프로젝트를 저장했어요');
+  }
+
+  function saveSchedule(id, fd) {
+    var s = null;
+    if (id) s = DB.schedules.filter(function (x) { return x.id === id; })[0];
+    if (!s) { s = { id: 's' + Date.now(), done: false }; DB.schedules.push(s); }
+    s._u = 1;
+    s.cat = str(fd, 'cat') || 'task';
+    s.title = str(fd, 'title') || '제목 없음';
+    s.date = str(fd, 'date') || todayStr();
+    s.project = str(fd, 'project');
+    s.memo = str(fd, 'memo');
+    saveDB();
+    closeSheet();
+    renderAll();
+    toast('일정을 저장했어요');
+  }
+
+  function saveIncome(id, fd) {
+    var i = null;
+    if (id) i = DB.income.filter(function (x) { return x.id === id; })[0];
+    if (!i) { i = { id: 'i' + Date.now() }; DB.income.push(i); }
+    i._u = 1;
+    i.type = str(fd, 'type') || 'expected';
+    i.amount = num(fd, 'amount');
+    i.date = str(fd, 'date') || todayStr();
+    i.project = str(fd, 'project');
+    i.label = str(fd, 'label') || '수익';
+    i.memo = str(fd, 'memo');
+    saveDB();
+    closeSheet();
+    renderAll();
+    toast('수익을 저장했어요');
+  }
+
+  function saveWork(id, fd) {
+    var w = null;
+    if (id) w = DB.work.filter(function (x) { return x.id === id; })[0];
+    if (!w) { w = { id: 'w' + Date.now(), est: false }; DB.work.push(w); }
+    w._u = 1;
+    w.task = str(fd, 'task') || '작업';
+    w.min = num(fd, 'min');
+    w.date = str(fd, 'date') || todayStr();
+    w.project = str(fd, 'project');
+    saveDB();
+    closeSheet();
+    renderAll();
+    toast('작업 시간을 저장했어요');
+  }
+
+  function saveAi(id, fd) {
+    var a = null;
+    if (id) a = DB.ai.filter(function (x) { return x.id === id; })[0];
+    if (!a) { a = { id: 'ai' + Date.now() }; DB.ai.push(a); }
+    a._u = 1;
+    a.ai = str(fd, 'ai') || 'AI';
+    a.role = str(fd, 'role');
+    a.result = str(fd, 'result');
+    a.note = str(fd, 'note');
+    saveDB();
+    closeSheet();
+    renderAll();
+    toast('AI 기록을 저장했어요');
+  }
+
+  /* ================= actions ================= */
+  function findAndRemove(coll, id) {
+    DB[coll] = DB[coll].filter(function (x) { return x.id !== id; });
+    if (DB.deleted.indexOf(id) < 0) DB.deleted.push(id);
+    saveDB();
+  }
+
+  function confirmSheet(msg, label, fn) {
+    openSheet(sheetHead('확인', '') + '<p class="confirm-msg">' + msg + '</p>' +
+      '<div class="btns"><button class="btn line" data-act="close-sheet">취소</button>' +
+      '<button class="btn dark" id="confirmOk">' + label + '</button></div>');
+    document.getElementById('confirmOk').onclick = function () {
+      closeSheet();
+      fn();
+    };
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-act]');
+    if (!t) return;
+    var act = t.getAttribute('data-act');
+    var id = t.getAttribute('data-id');
+    var k = t.getAttribute('data-k');
+
+    if (act === 'close-sheet') { closeSheet(); return; }
+    if (act === 'refresh') {
+      loadRemote().then(function (ok) {
+        var s = document.getElementById('setSync');
+        if (s) s.textContent = syncText();
+        toast(ok ? 'data.json을 반영했어요' : '오프라인 — 내장 데이터를 쓰고 있어요');
+      });
+      return;
+    }
+    if (act === 'settings') { openSettings(); return; }
+    if (act === 'goto') {
+      var tab = t.getAttribute('data-tab');
+      switchTab(tab);
+      return;
+    }
+    if (act === 'toggle-review') {
+      var r = DB.reviews.filter(function (x) { return x.id === id; })[0];
+      if (r) {
+        r.done = !r.done;
+        r._u = 1;
+        saveDB();
+        paintHome();
+        paintProjects();
+        toast(r.done ? '리뷰 완료로 표시했어요' : '체크를 해제했어요');
+      }
+      return;
+    }
+    if (act === 'toggle-project') {
+      UI.expanded[id] = !UI.expanded[id];
+      paintProjects();
+      return;
+    }
+    if (act === 'open-project') {
+      UI.expanded[id] = true;
+      switchTab('projects');
+      paintProjects();
+      setTimeout(function () {
+        var el = document.getElementById('proj-' + id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 60);
+      return;
+    }
+    if (act === 'add-project') { openSheet(projectForm(null)); return; }
+    if (act === 'edit-project') {
+      var p = DB.projects.filter(function (x) { return x.id === id; })[0];
+      if (p) openSheet(projectForm(p));
+      return;
+    }
+    if (act === 'del-project') {
+      var pd = DB.projects.filter(function (x) { return x.id === id; })[0];
+      if (pd) confirmSheet('“' + esc(pd.name) + '” 프로젝트를 삭제할까요? 되돌리려면 초기화하거나 백업을 불러와야 합니다.', '삭제', function () {
+        findAndRemove('projects', id);
+        renderAll();
+        toast('삭제했어요');
+      });
+      return;
+    }
+    if (act === 'app-filter') {
+      UI.appFilter = t.getAttribute('data-f');
+      var box = document.getElementById('appBox');
+      if (box) box.innerHTML = appsBoxHtml();
+      return;
+    }
+    if (act === 'sched-filter') {
+      UI.schedFilter = t.getAttribute('data-f');
+      paintSchedule();
+      return;
+    }
+    if (act === 'toggle-schedule') {
+      var s = DB.schedules.filter(function (x) { return x.id === id; })[0];
+      if (s) {
+        s.done = t.checked;
+        s._u = 1;
+        saveDB();
+        paintSchedule();
+        paintToday();
+      }
+      return;
+    }
+    if (act === 'add-schedule') { openSheet(scheduleForm(null)); return; }
+    if (act === 'edit-schedule') {
+      var se = DB.schedules.filter(function (x) { return x.id === id; })[0];
+      if (se) openSheet(scheduleForm(se));
+      return;
+    }
+    if (act === 'del-schedule') {
+      var sd = DB.schedules.filter(function (x) { return x.id === id; })[0];
+      if (sd) confirmSheet('“' + esc(sd.title) + '” 일정을 삭제할까요?', '삭제', function () {
+        findAndRemove('schedules', id);
+        renderAll();
+        toast('삭제했어요');
+      });
+      return;
+    }
+    if (act === 'add-work') { openSheet(workForm(null)); return; }
+    if (act === 'del-work') {
+      findAndRemove('work', id);
+      paintAnalytics();
+      toast('삭제했어요');
+      return;
+    }
+    if (act === 'add-ai') { openSheet(aiForm()); return; }
+    if (act === 'del-ai') {
+      findAndRemove('ai', id);
+      paintAnalytics();
+      toast('삭제했어요');
+      return;
+    }
+    if (act === 'add-income') { openSheet(incomeForm(null)); return; }
+    if (act === 'edit-income') {
+      var ie = DB.income.filter(function (x) { return x.id === id; })[0];
+      if (ie) openSheet(incomeForm(ie));
+      return;
+    }
+    if (act === 'del-income') {
+      findAndRemove('income', id);
+      renderAll();
+      toast('삭제했어요');
+      return;
+    }
+    if (act === 'draft') { openDraft(); return; }
+    if (act === 'copy') {
+      var text = '';
+      if (k === 'all') {
+        text = '[아이디어 명]\n' + DRAFT.title + '\n\n[아이디어 요약]\n' + DRAFT.summary +
+          '\n\n[아이디어내용]\n' + DRAFT.content + '\n\n[기대효과]\n' + DRAFT.effect;
+      } else if (k === 'title') text = DRAFT.title;
+      else if (k === 'summary') text = DRAFT.summary;
+      else if (k === 'content') text = DRAFT.content;
+      else if (k === 'effect') text = DRAFT.effect;
+      copyText(text).then(function (ok) {
+        toast(ok ? '복사했어요 — 폼에 붙여넣으세요' : '복사가 막혔어요. 길게 눌러 복사해 주세요');
+      });
+      return;
+    }
+    if (act === 'export-json') { exportJson(); return; }
+    if (act === 'import-json') { document.getElementById('importFile').click(); return; }
+    if (act === 'export-csv') { exportCsv(); return; }
+    if (act === 'pin-on') { openPinSetup(); return; }
+    if (act === 'pin-off') { openPinOff(); return; }
+    if (act === 'reset') {
+      confirmSheet('초기 데이터로 되돌릴까요? 직접 추가·수정한 내용과 체크 상태가 사라집니다.', '초기화', function () {
+        DB = clone(DEFAULT);
+        DB.deleted = [];
+        saveDB();
+        renderAll();
+        toast('초기 데이터로 되돌렸어요');
+      });
+      return;
+    }
+  });
+
+  document.addEventListener('submit', function (e) {
+    var f = e.target.closest('form[data-form]');
+    if (!f) return;
+    e.preventDefault();
+    var type = f.getAttribute('data-form');
+    var id = f.getAttribute('data-id');
+    var fd = new FormData(f);
+    if (type === 'project') saveProject(id, fd);
+    else if (type === 'schedule') saveSchedule(id, fd);
+    else if (type === 'income') saveIncome(id, fd);
+    else if (type === 'work') saveWork(id, fd);
+    else if (type === 'ai') saveAi(id, fd);
+  });
+
+  document.addEventListener('input', function (e) {
+    if (e.target && e.target.id === 'appSearch') {
+      UI.appQuery = e.target.value;
+      var box = document.getElementById('appBox');
+      if (box) box.innerHTML = appsBoxHtml();
+      return;
+    }
+    if (e.target && e.target.id === 'lesson') {
+      DB.lesson = e.target.value;
+      setText('lessonHint', '저장 중…');
+      clearTimeout(window.__lessonTimer);
+      window.__lessonTimer = setTimeout(function () {
+        saveDB();
+        setText('lessonHint', '저장됨 · ' + new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }));
+      }, 500);
+    }
+  });
+
+  document.getElementById('importFile').addEventListener('change', function (e) {
+    var f = e.target.files && e.target.files[0];
+    if (!f) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        var json = JSON.parse(reader.result);
+        if (!json || !Array.isArray(json.projects) || !Array.isArray(json.schedules)) throw new Error('bad');
+        if (!window.confirm('현재 데이터를 이 백업으로 덮어쓸까요?')) return;
+        DB = markAllUser(json);
+        DB.deleted = Array.isArray(DB.deleted) ? DB.deleted : [];
+        saveDB();
+        renderAll();
+        closeSheet();
+        toast('백업을 불러왔어요');
+      } catch (err) {
+        toast('JSON 파일을 읽을 수 없어요');
+      }
+    };
+    reader.readAsText(f);
+    e.target.value = '';
+  });
+
+  document.getElementById('sheetWrap').addEventListener('click', function (e) {
+    if (e.target === this) closeSheet();
+  });
+
+  document.getElementById('lockBtn').addEventListener('click', tryUnlock);
+  document.getElementById('lockPin').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeSheet();
+  });
+
+  /* ================= tabs ================= */
+  function switchTab(name) {
+    UI.tab = name;
+    var tabs = document.querySelectorAll('.tab');
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].classList.toggle('active', tabs[i].getAttribute('data-tab') === name);
+    }
+    ['home', 'projects', 'schedule', 'analytics'].forEach(function (n) {
+      var v = document.getElementById('view-' + n);
+      if (v) v.classList.toggle('active', n === name);
+    });
+    window.scrollTo(0, 0);
+  }
+  document.getElementById('tabbar').addEventListener('click', function (e) {
+    var t = e.target.closest('.tab');
+    if (!t) return;
+    switchTab(t.getAttribute('data-tab'));
+  });
+
+  /* ================= boot ================= */
+  saveDB();
+  renderAll();
+  paintSync();
+
+  if (pinOn()) showLock(true);
+
+  loadRemote().then(function (ok) {
+    if (ok) toast('data.json 자동 업데이트 완료');
+  });
+})();
+</script>
+</body>
+</html>
